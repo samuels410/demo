@@ -1,0 +1,899 @@
+Connecting to database specified by database.yml
+Creating scope :page. Overwriting existing method AdminUser.page.
+Creating scope :page. Overwriting existing method User.page.
+  [1m[36m (0.4ms)[0m  [1mselect sqlite_version(*)[0m
+  [1m[35m (138.1ms)[0m  CREATE TABLE "active_admin_comments" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "resource_id" varchar(255) NOT NULL, "resource_type" varchar(255) NOT NULL, "author_id" integer, "author_type" varchar(255), "body" text, "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL, "namespace" varchar(255)) 
+  [1m[36m (116.1ms)[0m  [1mCREATE INDEX "index_active_admin_comments_on_author_type_and_author_id" ON "active_admin_comments" ("author_type", "author_id")[0m
+  [1m[35m (116.1ms)[0m  CREATE INDEX "index_active_admin_comments_on_namespace" ON "active_admin_comments" ("namespace")
+  [1m[36m (116.0ms)[0m  [1mCREATE INDEX "index_admin_notes_on_resource_type_and_resource_id" ON "active_admin_comments" ("resource_type", "resource_id")[0m
+  [1m[35m (111.8ms)[0m  CREATE TABLE "admin_users" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "email" varchar(255) DEFAULT '' NOT NULL, "encrypted_password" varchar(255) DEFAULT '' NOT NULL, "reset_password_token" varchar(255), "reset_password_sent_at" datetime, "remember_created_at" datetime, "sign_in_count" integer DEFAULT 0, "current_sign_in_at" datetime, "last_sign_in_at" datetime, "current_sign_in_ip" varchar(255), "last_sign_in_ip" varchar(255), "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL) 
+  [1m[36m (126.2ms)[0m  [1mCREATE UNIQUE INDEX "index_admin_users_on_email" ON "admin_users" ("email")[0m
+  [1m[35m (116.3ms)[0m  CREATE UNIQUE INDEX "index_admin_users_on_reset_password_token" ON "admin_users" ("reset_password_token")
+  [1m[36m (123.4ms)[0m  [1mCREATE TABLE "authentications" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "user_id" integer, "provider" varchar(255), "uid" varchar(255), "token" varchar(255), "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL) [0m
+  [1m[35m (139.7ms)[0m  CREATE TABLE "blogs" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "title" varchar(255), "author" varchar(255), "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL, "content" text, "ispublished" integer DEFAULT 0, "releasemonth" varchar(255) DEFAULT 'December', "image" varchar(255), "user_id" integer) 
+  [1m[36m (123.9ms)[0m  [1mCREATE TABLE "categories" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar(255), "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL) [0m
+  [1m[35m (123.2ms)[0m  CREATE TABLE "courses" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "title" varchar(255), "author" varchar(255), "image" varchar(255), "desc" text, "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL, "user_id" integer, "ispublished" integer DEFAULT 0, "releasemonth" varchar(255) DEFAULT 'December') 
+  [1m[36m (118.5ms)[0m  [1mCREATE UNIQUE INDEX "index_courses_on_title_and_author" ON "courses" ("title", "author")[0m
+  [1m[35m (123.8ms)[0m  CREATE TABLE "faqs" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL, "order_id" integer, "question" text, "answer" text) 
+  [1m[36m (123.6ms)[0m  [1mCREATE TABLE "groupings" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "group_id" integer, "tutorial_id" integer, "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL) [0m
+  [1m[35m (124.2ms)[0m  CREATE TABLE "groups" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar(255), "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL) 
+  [1m[36m (122.9ms)[0m  [1mCREATE TABLE "o_classes" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar(255), "desc" varchar(255), "no_of_days" integer, "no_of_hours_per_day" integer, "start_date" date, "end_date" date, "start_time_of_day" time, "end_time_of_day" time, "no_of_student_per_class" integer, "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL, "user_id" integer) [0m
+  [1m[35m (133.8ms)[0m  CREATE TABLE "relationships" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "course_id" integer, "topic_id" integer, "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL) 
+  [1m[36m (132.3ms)[0m  [1mCREATE TABLE "roles" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar(255), "resource_id" integer, "resource_type" varchar(255), "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL) [0m
+  [1m[35m (116.4ms)[0m  CREATE INDEX "index_roles_on_name_and_resource_type_and_resource_id" ON "roles" ("name", "resource_type", "resource_id")
+  [1m[36m (124.7ms)[0m  [1mCREATE INDEX "index_roles_on_name" ON "roles" ("name")[0m
+  [1m[35m (132.3ms)[0m  CREATE TABLE "taggings" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "blog_id" integer, "tag_id" integer, "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL) 
+  [1m[36m (115.5ms)[0m  [1mCREATE TABLE "tags" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar(255), "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL) [0m
+  [1m[35m (142.3ms)[0m  CREATE TABLE "topics" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar(255), "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL, "desc" varchar(255)) 
+  [1m[36m (148.1ms)[0m  [1mCREATE TABLE "tutorials" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "title" varchar(255), "author" varchar(255), "image" varchar(255), "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL, "user_id" integer, "ispublished" integer DEFAULT 0, "releasemonth" varchar(255) DEFAULT 'December', "desc" text, "difficulty" varchar(255), "estimated_time" integer) [0m
+  [1m[35m (133.1ms)[0m  CREATE UNIQUE INDEX "index_tutorials_on_title_and_author" ON "tutorials" ("title", "author")
+  [1m[36m (147.0ms)[0m  [1mCREATE TABLE "users" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "email" varchar(255) DEFAULT '' NOT NULL, "encrypted_password" varchar(255) DEFAULT '' NOT NULL, "reset_password_token" varchar(255), "reset_password_sent_at" datetime, "remember_created_at" datetime, "sign_in_count" integer DEFAULT 0, "current_sign_in_at" datetime, "last_sign_in_at" datetime, "current_sign_in_ip" varchar(255), "last_sign_in_ip" varchar(255), "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL, "image" blob, "provider" varchar(255) DEFAULT 'signup', "phone" varchar(255), "user_type" varchar(255), "sub_plan" varchar(255), "user_desc" varchar(255), "name" varchar(255), "username" varchar(255)) [0m
+  [1m[35m (133.3ms)[0m  CREATE UNIQUE INDEX "index_users_on_email" ON "users" ("email")
+  [1m[36m (124.6ms)[0m  [1mCREATE UNIQUE INDEX "index_users_on_reset_password_token" ON "users" ("reset_password_token")[0m
+  [1m[35m (134.3ms)[0m  CREATE TABLE "users_roles" ("user_id" integer, "role_id" integer) 
+  [1m[36m (133.4ms)[0m  [1mCREATE INDEX "index_users_roles_on_user_id_and_role_id" ON "users_roles" ("user_id", "role_id")[0m
+  [1m[35m (141.8ms)[0m  CREATE TABLE "schema_migrations" ("version" varchar(255) NOT NULL) 
+  [1m[36m (125.4ms)[0m  [1mCREATE UNIQUE INDEX "unique_schema_migrations" ON "schema_migrations" ("version")[0m
+  [1m[35m (0.1ms)[0m  SELECT version FROM "schema_migrations"
+  [1m[36m (123.8ms)[0m  [1mINSERT INTO "schema_migrations" (version) VALUES ('20130307052254')[0m
+  [1m[35m (133.9ms)[0m  INSERT INTO "schema_migrations" (version) VALUES ('20130227170215')
+  [1m[36m (127.4ms)[0m  [1mINSERT INTO "schema_migrations" (version) VALUES ('20121015130924')[0m
+  [1m[35m (117.4ms)[0m  INSERT INTO "schema_migrations" (version) VALUES ('20121029171655')
+  [1m[36m (117.3ms)[0m  [1mINSERT INTO "schema_migrations" (version) VALUES ('20121019133317')[0m
+  [1m[35m (117.4ms)[0m  INSERT INTO "schema_migrations" (version) VALUES ('20121029154307')
+  [1m[36m (117.4ms)[0m  [1mINSERT INTO "schema_migrations" (version) VALUES ('20121020121159')[0m
+  [1m[35m (134.0ms)[0m  INSERT INTO "schema_migrations" (version) VALUES ('20121029174237')
+  [1m[36m (125.8ms)[0m  [1mINSERT INTO "schema_migrations" (version) VALUES ('20121018181802')[0m
+  [1m[35m (119.0ms)[0m  INSERT INTO "schema_migrations" (version) VALUES ('20121018175245')
+  [1m[36m (134.0ms)[0m  [1mINSERT INTO "schema_migrations" (version) VALUES ('20121017200627')[0m
+  [1m[35m (117.5ms)[0m  INSERT INTO "schema_migrations" (version) VALUES ('20121027210003')
+  [1m[36m (117.4ms)[0m  [1mINSERT INTO "schema_migrations" (version) VALUES ('20121029154118')[0m
+  [1m[35m (117.4ms)[0m  INSERT INTO "schema_migrations" (version) VALUES ('20121029172313')
+  [1m[36m (125.6ms)[0m  [1mINSERT INTO "schema_migrations" (version) VALUES ('20130301085752')[0m
+  [1m[35m (125.8ms)[0m  INSERT INTO "schema_migrations" (version) VALUES ('20130302103411')
+  [1m[36m (119.1ms)[0m  [1mINSERT INTO "schema_migrations" (version) VALUES ('20121101163929')[0m
+  [1m[35m (117.3ms)[0m  INSERT INTO "schema_migrations" (version) VALUES ('20121101163604')
+  [1m[36m (117.4ms)[0m  [1mINSERT INTO "schema_migrations" (version) VALUES ('20121015183001')[0m
+  [1m[35m (134.2ms)[0m  INSERT INTO "schema_migrations" (version) VALUES ('20121018181224')
+  [1m[36m (125.6ms)[0m  [1mINSERT INTO "schema_migrations" (version) VALUES ('20130301085836')[0m
+  [1m[35m (125.7ms)[0m  INSERT INTO "schema_migrations" (version) VALUES ('20130227142932')
+  [1m[36m (125.9ms)[0m  [1mINSERT INTO "schema_migrations" (version) VALUES ('20121101091544')[0m
+  [1m[35m (119.0ms)[0m  INSERT INTO "schema_migrations" (version) VALUES ('20121025213103')
+  [1m[36m (117.3ms)[0m  [1mINSERT INTO "schema_migrations" (version) VALUES ('20130301085601')[0m
+  [1m[35m (142.5ms)[0m  INSERT INTO "schema_migrations" (version) VALUES ('20121029153109')
+  [1m[36m (125.7ms)[0m  [1mINSERT INTO "schema_migrations" (version) VALUES ('20121020052835')[0m
+  [1m[35m (117.5ms)[0m  INSERT INTO "schema_migrations" (version) VALUES ('20130227045429')
+  [1m[36m (125.5ms)[0m  [1mINSERT INTO "schema_migrations" (version) VALUES ('20121017202019')[0m
+  [1m[35m (117.4ms)[0m  INSERT INTO "schema_migrations" (version) VALUES ('20130227105930')
+  [1m[36m (135.7ms)[0m  [1mINSERT INTO "schema_migrations" (version) VALUES ('20121026170102')[0m
+  [1m[35m (125.7ms)[0m  INSERT INTO "schema_migrations" (version) VALUES ('20121019121303')
+  [1m[36m (125.8ms)[0m  [1mINSERT INTO "schema_migrations" (version) VALUES ('20121027203716')[0m
+  [1m[35m (117.4ms)[0m  INSERT INTO "schema_migrations" (version) VALUES ('20121029171635')
+  [1m[36m (134.0ms)[0m  [1mINSERT INTO "schema_migrations" (version) VALUES ('20121029150621')[0m
+  [1m[35m (134.1ms)[0m  INSERT INTO "schema_migrations" (version) VALUES ('20121015131824')
+  [1m[36m (117.3ms)[0m  [1mINSERT INTO "schema_migrations" (version) VALUES ('20121026201830')[0m
+  [1m[35m (127.4ms)[0m  INSERT INTO "schema_migrations" (version) VALUES ('20121029172739')
+  [1m[36m (125.8ms)[0m  [1mINSERT INTO "schema_migrations" (version) VALUES ('20121101115258')[0m
+  [1m[35m (117.4ms)[0m  INSERT INTO "schema_migrations" (version) VALUES ('20121029150716')
+  [1m[36m (134.0ms)[0m  [1mINSERT INTO "schema_migrations" (version) VALUES ('20130301090210')[0m
+  [1m[35m (117.4ms)[0m  INSERT INTO "schema_migrations" (version) VALUES ('20130227081440')
+  [1m[36m (117.5ms)[0m  [1mINSERT INTO "schema_migrations" (version) VALUES ('20130227165557')[0m
+  [1m[35m (142.3ms)[0m  INSERT INTO "schema_migrations" (version) VALUES ('20121019133242')
+  [1m[36m (127.3ms)[0m  [1mINSERT INTO "schema_migrations" (version) VALUES ('20130227045459')[0m
+  [1m[35m (117.4ms)[0m  INSERT INTO "schema_migrations" (version) VALUES ('20121026201801')
+  [1m[36m (134.0ms)[0m  [1mINSERT INTO "schema_migrations" (version) VALUES ('20121029165441')[0m
+  [1m[35m (117.5ms)[0m  INSERT INTO "schema_migrations" (version) VALUES ('20121018181200')
+  [1m[36m (125.9ms)[0m  [1mINSERT INTO "schema_migrations" (version) VALUES ('20121017200646')[0m
+  [1m[35m (142.3ms)[0m  INSERT INTO "schema_migrations" (version) VALUES ('20121029172245')
+  [1m[36m (5.3ms)[0m  [1mSELECT "schema_migrations"."version" FROM "schema_migrations" [0m
+Creating scope :page. Overwriting existing method Role.page.
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36mSQL (3.8ms)[0m  [1mINSERT INTO "roles" ("created_at", "name", "resource_id", "resource_type", "updated_at") VALUES (?, ?, ?, ?, ?)[0m  [["created_at", Mon, 11 Mar 2013 09:59:30 UTC +00:00], ["name", "admin"], ["resource_id", nil], ["resource_type", nil], ["updated_at", Mon, 11 Mar 2013 09:59:30 UTC +00:00]]
+  [1m[35m (112.2ms)[0m  commit transaction
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.7ms)[0m  INSERT INTO "roles" ("created_at", "name", "resource_id", "resource_type", "updated_at") VALUES (?, ?, ?, ?, ?)  [["created_at", Mon, 11 Mar 2013 09:59:30 UTC +00:00], ["name", "student"], ["resource_id", nil], ["resource_type", nil], ["updated_at", Mon, 11 Mar 2013 09:59:30 UTC +00:00]]
+  [1m[36m (157.0ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36mSQL (72.5ms)[0m  [1mINSERT INTO "roles" ("created_at", "name", "resource_id", "resource_type", "updated_at") VALUES (?, ?, ?, ?, ?)[0m  [["created_at", Mon, 11 Mar 2013 09:59:31 UTC +00:00], ["name", "teacher"], ["resource_id", nil], ["resource_type", nil], ["updated_at", Mon, 11 Mar 2013 09:59:31 UTC +00:00]]
+  [1m[35m (142.6ms)[0m  commit transaction
+  [1m[36m (0.2ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.7ms)[0m  INSERT INTO "roles" ("created_at", "name", "resource_id", "resource_type", "updated_at") VALUES (?, ?, ?, ?, ?)  [["created_at", Mon, 11 Mar 2013 09:59:31 UTC +00:00], ["name", "TA"], ["resource_id", nil], ["resource_type", nil], ["updated_at", Mon, 11 Mar 2013 09:59:31 UTC +00:00]]
+  [1m[36m (197.3ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36mSQL (0.6ms)[0m  [1mINSERT INTO "roles" ("created_at", "name", "resource_id", "resource_type", "updated_at") VALUES (?, ?, ?, ?, ?)[0m  [["created_at", Mon, 11 Mar 2013 09:59:31 UTC +00:00], ["name", "designer"], ["resource_id", nil], ["resource_type", nil], ["updated_at", Mon, 11 Mar 2013 09:59:31 UTC +00:00]]
+  [1m[35m (156.6ms)[0m  commit transaction
+  [1m[36m (0.2ms)[0m  [1mbegin transaction[0m
+  [1m[35mUser Exists (0.4ms)[0m  SELECT 1 AS one FROM "users" WHERE "users"."email" = 'admin@admin.com' LIMIT 1
+Binary data inserted for `string` type on column `encrypted_password`
+  [1m[36mSQL (1.2ms)[0m  [1mINSERT INTO "users" ("created_at", "current_sign_in_at", "current_sign_in_ip", "email", "encrypted_password", "image", "last_sign_in_at", "last_sign_in_ip", "name", "phone", "provider", "remember_created_at", "reset_password_sent_at", "reset_password_token", "sign_in_count", "sub_plan", "updated_at", "user_desc", "user_type", "username") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)[0m  [["created_at", Mon, 11 Mar 2013 09:59:32 UTC +00:00], ["current_sign_in_at", nil], ["current_sign_in_ip", nil], ["email", "admin@admin.com"], ["encrypted_password", "$2a$10$HxPzGyTNsuFA6gLmjdXIouINkz6M.aRQaZP8DvcEyz6mRL35xvQQu"], ["image", nil], ["last_sign_in_at", nil], ["last_sign_in_ip", nil], ["name", "Administrator"], ["phone", nil], ["provider", "admin"], ["remember_created_at", nil], ["reset_password_sent_at", nil], ["reset_password_token", nil], ["sign_in_count", 0], ["sub_plan", nil], ["updated_at", Mon, 11 Mar 2013 09:59:32 UTC +00:00], ["user_desc", nil], ["user_type", nil], ["username", nil]]
+  [1m[35m (113.7ms)[0m  commit transaction
+  [1m[36mRole Load (0.4ms)[0m  [1mSELECT "roles".* FROM "roles" WHERE "roles"."name" = 'admin' AND "roles"."resource_type" IS NULL AND "roles"."resource_id" IS NULL LIMIT 1[0m
+  [1m[35mRole Exists (0.2ms)[0m  SELECT 1 AS one FROM "roles" INNER JOIN "users_roles" ON "roles"."id" = "users_roles"."role_id" WHERE "users_roles"."user_id" = 1 AND "roles"."id" = 1 LIMIT 1
+  [1m[36m (0.3ms)[0m  [1mSELECT "roles".id FROM "roles" INNER JOIN "users_roles" ON "roles"."id" = "users_roles"."role_id" WHERE "users_roles"."user_id" = 1[0m
+  [1m[35mRole Load (0.3ms)[0m  SELECT "roles".* FROM "roles" WHERE "roles"."id" = ? LIMIT 1  [["id", 1]]
+  [1m[36mRole Load (0.3ms)[0m  [1mSELECT "roles".* FROM "roles" INNER JOIN "users_roles" ON "roles"."id" = "users_roles"."role_id" WHERE "users_roles"."user_id" = 1[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36m (0.3ms)[0m  [1mINSERT INTO "users_roles" ("user_id", "role_id") VALUES (1, 1)[0m
+  [1m[35m (120.1ms)[0m  commit transaction
+Connecting to database specified by database.yml
+Creating scope :page. Overwriting existing method AdminUser.page.
+Creating scope :page. Overwriting existing method User.page.
+  [1m[36m (5.6ms)[0m  [1mSELECT "schema_migrations"."version" FROM "schema_migrations" [0m
+Migrating to CreateCourses (20121015130924)
+Migrating to AddIndexToCoursesTitleAuthor (20121015131824)
+Migrating to CreateCategories (20121015183001)
+Migrating to CreateTopics (20121017200627)
+Migrating to CreateRelationships (20121017200646)
+Migrating to RemoveCategoryFromCourse (20121017202019)
+Migrating to CreateTutorials (20121018175245)
+Migrating to CreateGroups (20121018181200)
+Migrating to CreateGroupings (20121018181224)
+Migrating to AddIndexToTutorialsTitleAuthor (20121018181802)
+Migrating to CreateBlogs (20121019121303)
+Migrating to CreateTags (20121019133242)
+Migrating to CreateTaggings (20121019133317)
+Migrating to AddIndexToUsersEmail (20121020052835)
+Migrating to AddUserIdToCourses (20121020121159)
+Migrating to ChangeColumnDescInCourse (20121025213103)
+Migrating to CreateOClasses (20121026170102)
+Migrating to AddUserIdToTutorials (20121026201801)
+Migrating to AddUserIdToOClasses (20121026201830)
+Migrating to AddIsPublishedToCourses (20121027203716)
+Migrating to AddReleasemonthToCourses (20121027210003)
+Migrating to AddIsPublishedToTutorials (20121029150621)
+Migrating to AddReleasemonthToTutorials (20121029150716)
+Migrating to ChangeColumnDescInTutorial (20121029153109)
+Migrating to DeleteDescInTutorial (20121029154118)
+Migrating to AddDescInTutorial (20121029154307)
+Migrating to AddDifficultyAndEstimatedTimeToTutorial (20121029165441)
+Migrating to DeleteContentFromBlog (20121029171635)
+Migrating to AddContentToBlog (20121029171655)
+Migrating to AddIspublishedToBlog (20121029172245)
+Migrating to AddReleasedmonthToBlog (20121029172313)
+Migrating to AddImageToBlog (20121029172739)
+Migrating to AdduserIdToBlog (20121029174237)
+Migrating to CreateFaqs (20121101091544)
+Migrating to AddOrderIdToFaq (20121101115258)
+Migrating to DeleteQuestionAndAnswerFromFaq (20121101163604)
+Migrating to AddQuestionAndAnswerToFaq (20121101163929)
+Migrating to DeviseCreateUsers (20130227045429)
+Migrating to RolifyCreateRoles (20130227045459)
+Migrating to CreateAuthentications (20130227081440)
+Migrating to AddImageToUsers (20130227105930)
+Migrating to AddProviderToUsers (20130227142932)
+Migrating to Users (20130227165557)
+Migrating to AddPhoneToUsers (20130227170215)
+Migrating to AddUserTypeToUsers (20130301085601)
+Migrating to AddSubPlanToUsers (20130301085752)
+Migrating to AddUserDescToUsers (20130301085836)
+Migrating to AddNameToUsers (20130301090210)
+Migrating to AddUsernameToUsers (20130302103411)
+Migrating to AddDescToTopics (20130307052254)
+  [1m[35m (0.2ms)[0m  select sqlite_version(*)
+  [1m[36m (0.4ms)[0m  [1mSELECT "schema_migrations"."version" FROM "schema_migrations" [0m
+Connecting to database specified by database.yml
+Creating scope :page. Overwriting existing method AdminUser.page.
+Creating scope :page. Overwriting existing method User.page.
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mUser Exists (4.8ms)[0m  SELECT 1 AS one FROM "users" WHERE "users"."email" = 'houston@hotmail.com' LIMIT 1
+Binary data inserted for `string` type on column `encrypted_password`
+  [1m[36mSQL (4.4ms)[0m  [1mINSERT INTO "users" ("created_at", "current_sign_in_at", "current_sign_in_ip", "email", "encrypted_password", "image", "last_sign_in_at", "last_sign_in_ip", "name", "phone", "provider", "remember_created_at", "reset_password_sent_at", "reset_password_token", "sign_in_count", "sub_plan", "updated_at", "user_desc", "user_type", "username") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)[0m  [["created_at", Mon, 11 Mar 2013 10:00:16 UTC +00:00], ["current_sign_in_at", nil], ["current_sign_in_ip", nil], ["email", "houston@hotmail.com"], ["encrypted_password", "$2a$10$.3DOmADCfY0NQC4gVRs7.uWy9.TdqiI/Di/14wkmpAG/vn7xWFw0S"], ["image", nil], ["last_sign_in_at", nil], ["last_sign_in_ip", nil], ["name", "Augustus Schoen"], ["phone", nil], ["provider", "signup"], ["remember_created_at", nil], ["reset_password_sent_at", nil], ["reset_password_token", nil], ["sign_in_count", 0], ["sub_plan", 1], ["updated_at", Mon, 11 Mar 2013 10:00:16 UTC +00:00], ["user_desc", "This is a dummy message about user. This will tell soemthing about this user."], ["user_type", 1], ["username", nil]]
+  [1m[35m (139.8ms)[0m  commit transaction
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mUser Exists (0.3ms)[0m  SELECT 1 AS one FROM "users" WHERE "users"."email" = 'ernestine_cormier@yahoo.com' LIMIT 1
+Binary data inserted for `string` type on column `encrypted_password`
+  [1m[36mSQL (0.8ms)[0m  [1mINSERT INTO "users" ("created_at", "current_sign_in_at", "current_sign_in_ip", "email", "encrypted_password", "image", "last_sign_in_at", "last_sign_in_ip", "name", "phone", "provider", "remember_created_at", "reset_password_sent_at", "reset_password_token", "sign_in_count", "sub_plan", "updated_at", "user_desc", "user_type", "username") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)[0m  [["created_at", Mon, 11 Mar 2013 10:00:17 UTC +00:00], ["current_sign_in_at", nil], ["current_sign_in_ip", nil], ["email", "ernestine_cormier@yahoo.com"], ["encrypted_password", "$2a$10$Qft70LOTrNIGCwVBSv7jnOoQtLt5E4mmTTsg9ZIda8NOHMTie9pgO"], ["image", nil], ["last_sign_in_at", nil], ["last_sign_in_ip", nil], ["name", "Darren Gulgowski"], ["phone", nil], ["provider", "signup"], ["remember_created_at", nil], ["reset_password_sent_at", nil], ["reset_password_token", nil], ["sign_in_count", 0], ["sub_plan", 2], ["updated_at", Mon, 11 Mar 2013 10:00:17 UTC +00:00], ["user_desc", "This is a dummy message about user. This will tell soemthing about this user."], ["user_type", 1], ["username", nil]]
+  [1m[35m (126.9ms)[0m  commit transaction
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mUser Exists (0.2ms)[0m  SELECT 1 AS one FROM "users" WHERE "users"."email" = 'oliver_pagac@hotmail.com' LIMIT 1
+Binary data inserted for `string` type on column `encrypted_password`
+  [1m[36mSQL (0.7ms)[0m  [1mINSERT INTO "users" ("created_at", "current_sign_in_at", "current_sign_in_ip", "email", "encrypted_password", "image", "last_sign_in_at", "last_sign_in_ip", "name", "phone", "provider", "remember_created_at", "reset_password_sent_at", "reset_password_token", "sign_in_count", "sub_plan", "updated_at", "user_desc", "user_type", "username") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)[0m  [["created_at", Mon, 11 Mar 2013 10:00:17 UTC +00:00], ["current_sign_in_at", nil], ["current_sign_in_ip", nil], ["email", "oliver_pagac@hotmail.com"], ["encrypted_password", "$2a$10$ISPVLat8D.aUtl2SBJNkJucz2igxZFg0kvOcrN3JIxHm.zJZoyZva"], ["image", nil], ["last_sign_in_at", nil], ["last_sign_in_ip", nil], ["name", "Howell Heller"], ["phone", nil], ["provider", "signup"], ["remember_created_at", nil], ["reset_password_sent_at", nil], ["reset_password_token", nil], ["sign_in_count", 0], ["sub_plan", 1], ["updated_at", Mon, 11 Mar 2013 10:00:17 UTC +00:00], ["user_desc", "This is a dummy message about user. This will tell soemthing about this user."], ["user_type", 2], ["username", nil]]
+  [1m[35m (112.5ms)[0m  commit transaction
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mUser Exists (0.2ms)[0m  SELECT 1 AS one FROM "users" WHERE "users"."email" = 'destiny.morar@yahoo.com' LIMIT 1
+Binary data inserted for `string` type on column `encrypted_password`
+  [1m[36mSQL (0.7ms)[0m  [1mINSERT INTO "users" ("created_at", "current_sign_in_at", "current_sign_in_ip", "email", "encrypted_password", "image", "last_sign_in_at", "last_sign_in_ip", "name", "phone", "provider", "remember_created_at", "reset_password_sent_at", "reset_password_token", "sign_in_count", "sub_plan", "updated_at", "user_desc", "user_type", "username") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)[0m  [["created_at", Mon, 11 Mar 2013 10:00:17 UTC +00:00], ["current_sign_in_at", nil], ["current_sign_in_ip", nil], ["email", "destiny.morar@yahoo.com"], ["encrypted_password", "$2a$10$.8IMw9xDEKnZmOUcNpeH7ulggB9wB1hp3j0/rjLuEuE7YGQxJsnEC"], ["image", nil], ["last_sign_in_at", nil], ["last_sign_in_ip", nil], ["name", "Nathanael Schultz"], ["phone", nil], ["provider", "signup"], ["remember_created_at", nil], ["reset_password_sent_at", nil], ["reset_password_token", nil], ["sign_in_count", 0], ["sub_plan", 2], ["updated_at", Mon, 11 Mar 2013 10:00:17 UTC +00:00], ["user_desc", "This is a dummy message about user. This will tell soemthing about this user."], ["user_type", 3], ["username", nil]]
+  [1m[35m (112.5ms)[0m  commit transaction
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mUser Exists (0.2ms)[0m  SELECT 1 AS one FROM "users" WHERE "users"."email" = 'name_mayer@gmail.com' LIMIT 1
+Binary data inserted for `string` type on column `encrypted_password`
+  [1m[36mSQL (0.7ms)[0m  [1mINSERT INTO "users" ("created_at", "current_sign_in_at", "current_sign_in_ip", "email", "encrypted_password", "image", "last_sign_in_at", "last_sign_in_ip", "name", "phone", "provider", "remember_created_at", "reset_password_sent_at", "reset_password_token", "sign_in_count", "sub_plan", "updated_at", "user_desc", "user_type", "username") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)[0m  [["created_at", Mon, 11 Mar 2013 10:00:18 UTC +00:00], ["current_sign_in_at", nil], ["current_sign_in_ip", nil], ["email", "name_mayer@gmail.com"], ["encrypted_password", "$2a$10$N27MMkoPZxUJYexckW0yT.1XdQ4Uh/Bj5yQiL/U46JrrEC82nq6YW"], ["image", nil], ["last_sign_in_at", nil], ["last_sign_in_ip", nil], ["name", "Dr. Michael Kassulke"], ["phone", nil], ["provider", "signup"], ["remember_created_at", nil], ["reset_password_sent_at", nil], ["reset_password_token", nil], ["sign_in_count", 0], ["sub_plan", 2], ["updated_at", Mon, 11 Mar 2013 10:00:18 UTC +00:00], ["user_desc", "This is a dummy message about user. This will tell soemthing about this user."], ["user_type", 2], ["username", nil]]
+  [1m[35m (129.1ms)[0m  commit transaction
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mUser Exists (0.2ms)[0m  SELECT 1 AS one FROM "users" WHERE "users"."email" = 'ottilie_kuhlman@gmail.com' LIMIT 1
+Binary data inserted for `string` type on column `encrypted_password`
+  [1m[36mSQL (0.7ms)[0m  [1mINSERT INTO "users" ("created_at", "current_sign_in_at", "current_sign_in_ip", "email", "encrypted_password", "image", "last_sign_in_at", "last_sign_in_ip", "name", "phone", "provider", "remember_created_at", "reset_password_sent_at", "reset_password_token", "sign_in_count", "sub_plan", "updated_at", "user_desc", "user_type", "username") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)[0m  [["created_at", Mon, 11 Mar 2013 10:00:18 UTC +00:00], ["current_sign_in_at", nil], ["current_sign_in_ip", nil], ["email", "ottilie_kuhlman@gmail.com"], ["encrypted_password", "$2a$10$0LE7V6zxi3K96XslDHg/MeFvXHArmAe6JDHHTou3iWKVyFW4buel6"], ["image", nil], ["last_sign_in_at", nil], ["last_sign_in_ip", nil], ["name", "Werner Metz"], ["phone", nil], ["provider", "signup"], ["remember_created_at", nil], ["reset_password_sent_at", nil], ["reset_password_token", nil], ["sign_in_count", 0], ["sub_plan", 2], ["updated_at", Mon, 11 Mar 2013 10:00:18 UTC +00:00], ["user_desc", "This is a dummy message about user. This will tell soemthing about this user."], ["user_type", 2], ["username", nil]]
+  [1m[35m (122.5ms)[0m  commit transaction
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mUser Exists (0.2ms)[0m  SELECT 1 AS one FROM "users" WHERE "users"."email" = 'joel@hotmail.com' LIMIT 1
+Binary data inserted for `string` type on column `encrypted_password`
+  [1m[36mSQL (0.7ms)[0m  [1mINSERT INTO "users" ("created_at", "current_sign_in_at", "current_sign_in_ip", "email", "encrypted_password", "image", "last_sign_in_at", "last_sign_in_ip", "name", "phone", "provider", "remember_created_at", "reset_password_sent_at", "reset_password_token", "sign_in_count", "sub_plan", "updated_at", "user_desc", "user_type", "username") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)[0m  [["created_at", Mon, 11 Mar 2013 10:00:18 UTC +00:00], ["current_sign_in_at", nil], ["current_sign_in_ip", nil], ["email", "joel@hotmail.com"], ["encrypted_password", "$2a$10$viLw06LX2GrjN6R6D3t/wu/EYbitpl/BEJJaqozCler2yXhT7jX7i"], ["image", nil], ["last_sign_in_at", nil], ["last_sign_in_ip", nil], ["name", "General Schuppe"], ["phone", nil], ["provider", "signup"], ["remember_created_at", nil], ["reset_password_sent_at", nil], ["reset_password_token", nil], ["sign_in_count", 0], ["sub_plan", 2], ["updated_at", Mon, 11 Mar 2013 10:00:18 UTC +00:00], ["user_desc", "This is a dummy message about user. This will tell soemthing about this user."], ["user_type", 2], ["username", nil]]
+  [1m[35m (120.8ms)[0m  commit transaction
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mUser Exists (0.2ms)[0m  SELECT 1 AS one FROM "users" WHERE "users"."email" = 'gia_ryan@yahoo.com' LIMIT 1
+Binary data inserted for `string` type on column `encrypted_password`
+  [1m[36mSQL (0.7ms)[0m  [1mINSERT INTO "users" ("created_at", "current_sign_in_at", "current_sign_in_ip", "email", "encrypted_password", "image", "last_sign_in_at", "last_sign_in_ip", "name", "phone", "provider", "remember_created_at", "reset_password_sent_at", "reset_password_token", "sign_in_count", "sub_plan", "updated_at", "user_desc", "user_type", "username") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)[0m  [["created_at", Mon, 11 Mar 2013 10:00:19 UTC +00:00], ["current_sign_in_at", nil], ["current_sign_in_ip", nil], ["email", "gia_ryan@yahoo.com"], ["encrypted_password", "$2a$10$LAxjRZFI7AER.WF0CMaobOYzO.tVrDufRIyuSTbeXcne6.ENImZLm"], ["image", nil], ["last_sign_in_at", nil], ["last_sign_in_ip", nil], ["name", "Javon Hoeger"], ["phone", nil], ["provider", "signup"], ["remember_created_at", nil], ["reset_password_sent_at", nil], ["reset_password_token", nil], ["sign_in_count", 0], ["sub_plan", 2], ["updated_at", Mon, 11 Mar 2013 10:00:19 UTC +00:00], ["user_desc", "This is a dummy message about user. This will tell soemthing about this user."], ["user_type", 2], ["username", nil]]
+  [1m[35m (112.4ms)[0m  commit transaction
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mUser Exists (0.2ms)[0m  SELECT 1 AS one FROM "users" WHERE "users"."email" = 'benedict@yahoo.com' LIMIT 1
+Binary data inserted for `string` type on column `encrypted_password`
+  [1m[36mSQL (0.7ms)[0m  [1mINSERT INTO "users" ("created_at", "current_sign_in_at", "current_sign_in_ip", "email", "encrypted_password", "image", "last_sign_in_at", "last_sign_in_ip", "name", "phone", "provider", "remember_created_at", "reset_password_sent_at", "reset_password_token", "sign_in_count", "sub_plan", "updated_at", "user_desc", "user_type", "username") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)[0m  [["created_at", Mon, 11 Mar 2013 10:00:19 UTC +00:00], ["current_sign_in_at", nil], ["current_sign_in_ip", nil], ["email", "benedict@yahoo.com"], ["encrypted_password", "$2a$10$QZmloOUVPSNY5Nuh7A6fTOqWCl0HjS6VSFI9cTWqU/YiKYRH2kR9O"], ["image", nil], ["last_sign_in_at", nil], ["last_sign_in_ip", nil], ["name", "Ashlynn DuBuque"], ["phone", nil], ["provider", "signup"], ["remember_created_at", nil], ["reset_password_sent_at", nil], ["reset_password_token", nil], ["sign_in_count", 0], ["sub_plan", 2], ["updated_at", Mon, 11 Mar 2013 10:00:19 UTC +00:00], ["user_desc", "This is a dummy message about user. This will tell soemthing about this user."], ["user_type", 2], ["username", nil]]
+  [1m[35m (112.6ms)[0m  commit transaction
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mUser Exists (0.2ms)[0m  SELECT 1 AS one FROM "users" WHERE "users"."email" = 'devyn@yahoo.com' LIMIT 1
+Binary data inserted for `string` type on column `encrypted_password`
+  [1m[36mSQL (0.7ms)[0m  [1mINSERT INTO "users" ("created_at", "current_sign_in_at", "current_sign_in_ip", "email", "encrypted_password", "image", "last_sign_in_at", "last_sign_in_ip", "name", "phone", "provider", "remember_created_at", "reset_password_sent_at", "reset_password_token", "sign_in_count", "sub_plan", "updated_at", "user_desc", "user_type", "username") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)[0m  [["created_at", Mon, 11 Mar 2013 10:00:19 UTC +00:00], ["current_sign_in_at", nil], ["current_sign_in_ip", nil], ["email", "devyn@yahoo.com"], ["encrypted_password", "$2a$10$avBWQIFUVCC115N9Yr4Enecbdc/sVR1/7dyV94GAes5HKqleTxavW"], ["image", nil], ["last_sign_in_at", nil], ["last_sign_in_ip", nil], ["name", "Odie Ankunding"], ["phone", nil], ["provider", "signup"], ["remember_created_at", nil], ["reset_password_sent_at", nil], ["reset_password_token", nil], ["sign_in_count", 0], ["sub_plan", 2], ["updated_at", Mon, 11 Mar 2013 10:00:19 UTC +00:00], ["user_desc", "This is a dummy message about user. This will tell soemthing about this user."], ["user_type", 2], ["username", nil]]
+  [1m[35m (121.1ms)[0m  commit transaction
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mUser Exists (0.3ms)[0m  SELECT 1 AS one FROM "users" WHERE "users"."email" = 'ankithbti007@gmail.com' LIMIT 1
+Binary data inserted for `string` type on column `encrypted_password`
+  [1m[36mSQL (0.7ms)[0m  [1mINSERT INTO "users" ("created_at", "current_sign_in_at", "current_sign_in_ip", "email", "encrypted_password", "image", "last_sign_in_at", "last_sign_in_ip", "name", "phone", "provider", "remember_created_at", "reset_password_sent_at", "reset_password_token", "sign_in_count", "sub_plan", "updated_at", "user_desc", "user_type", "username") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)[0m  [["created_at", Mon, 11 Mar 2013 10:00:19 UTC +00:00], ["current_sign_in_at", nil], ["current_sign_in_ip", nil], ["email", "ankithbti007@gmail.com"], ["encrypted_password", "$2a$10$4Cdxl0zDC2TXaARMkmE3NOf6p1pKwIp8OEPBSxWLjk5yt6vjUHuMW"], ["image", nil], ["last_sign_in_at", nil], ["last_sign_in_ip", nil], ["name", "Ankit Gupta"], ["phone", nil], ["provider", "signup"], ["remember_created_at", nil], ["reset_password_sent_at", nil], ["reset_password_token", nil], ["sign_in_count", 0], ["sub_plan", 2], ["updated_at", Mon, 11 Mar 2013 10:00:19 UTC +00:00], ["user_desc", "This is a dummy message about user. This will tell soemthing about this user."], ["user_type", 3], ["username", nil]]
+  [1m[35m (120.8ms)[0m  commit transaction
+Creating scope :page. Overwriting existing method Faq.page.
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.8ms)[0m  INSERT INTO "faqs" ("answer", "created_at", "order_id", "question", "updated_at") VALUES (?, ?, ?, ?, ?)  [["answer", "You can sign up for a monthly subscription ($19 a month) or a yearly subscription ($180 a year, save 20%). We also offer discounts for groups of 5 or more."], ["created_at", Mon, 11 Mar 2013 10:00:20 UTC +00:00], ["order_id", 5], ["question", "What are your payment plans and options?"], ["updated_at", Mon, 11 Mar 2013 10:00:20 UTC +00:00]]
+  [1m[36m (105.0ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36mSQL (0.6ms)[0m  [1mINSERT INTO "faqs" ("answer", "created_at", "order_id", "question", "updated_at") VALUES (?, ?, ?, ?, ?)[0m  [["answer", "If you have a pre-existing $9 a month membership you will be able to continue accessing Tutorials and Source Files into the future. To become a full member and access eBooks and our library of courses, you'll need to upgrade your account to the current membership plan. This will be an additional $10 a month and is a separate subscription that works in tandem with your Basic membership to give you full access. You can upgrade at any time via your My Account area. The two subscriptions in tandem will total $19 a month (less if your Basic membership was discounted)."], ["created_at", Mon, 11 Mar 2013 10:00:20 UTC +00:00], ["order_id", 6], ["question", "How do I upgrade my Basic membership?"], ["updated_at", Mon, 11 Mar 2013 10:00:20 UTC +00:00]]
+  [1m[35m (114.6ms)[0m  commit transaction
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.5ms)[0m  INSERT INTO "faqs" ("answer", "created_at", "order_id", "question", "updated_at") VALUES (?, ?, ?, ?, ?)  [["answer", "At this time pure credit card payments are not supported. However, it's easy to pay with your credit card through PayPal."], ["created_at", Mon, 11 Mar 2013 10:00:20 UTC +00:00], ["order_id", 7], ["question", "Do you offer any other payment methods, besides PayPal and Moneybookers (Skrill)?"], ["updated_at", Mon, 11 Mar 2013 10:00:20 UTC +00:00]]
+  [1m[36m (122.7ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36mSQL (0.6ms)[0m  [1mINSERT INTO "faqs" ("answer", "created_at", "order_id", "question", "updated_at") VALUES (?, ?, ?, ?, ?)[0m  [["answer", "We founded SmartCoach to help you learn the skills you need to create wonderful things. Whether that's an award-winning web design, a popular web app, a breathtaking video project, or a sought-after freelance business, we believe you can do it.\n\t\t\t\t\t\tBecoming a member is the best way to learn and improve the skills that are most important to you: skills that can help you practice your most passionate hobbies, super-charge your career, or go from paper-pusher to creative mastermind.\n\t\t\t\t\t\tOver three years we've helped more than 45,000 members learn cutting-edge skills across top creative and tech fields like design, photography, web development, motion graphics and much more.\n\t\t\t\t\t\tBecause we believe education should be accessible to everyone, a SmartCoach Premium membership is a fraction of the cost of schools and formal training. According to many of our members, it's just as good - if not better."], ["created_at", Mon, 11 Mar 2013 10:00:20 UTC +00:00], ["order_id", 1], ["question", "What SmartCoach can provide?"], ["updated_at", Mon, 11 Mar 2013 10:00:20 UTC +00:00]]
+  [1m[35m (139.4ms)[0m  commit transaction
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.5ms)[0m  INSERT INTO "faqs" ("answer", "created_at", "order_id", "question", "updated_at") VALUES (?, ?, ?, ?, ?)  [["answer", "It's easy to learn software, but what should you make with it?\n\t\t\t\t\t\t\tIt's easy to learn tips and techniques, but when and how should you use them?\n\t\t\t\t\t\t\tSmartCoach is designed to help you grasp and practice complete skills. Learning via tutorials, eBooks and courses means that topics are covered in-depth from many different angles, leaving you with a well-grounded understanding of how to apply the skills you've learned.\n\t\t\t\t\t\t\tWe've worked with legends across many industries to bring you training that is unmatched in quality, teaching you best-practices and good technique. Every resource is created by experts and reviewed by experts.\n\t\t\t\t\t\t\tSelf-learning can be the most important form of education in your life. If you care about giving yourself the best education, you'll treasure your SmartCoach Premium membership."], ["created_at", Mon, 11 Mar 2013 10:00:20 UTC +00:00], ["order_id", 2], ["question", "Why to join SmartCoach?"], ["updated_at", Mon, 11 Mar 2013 10:00:20 UTC +00:00]]
+  [1m[36m (123.1ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36mSQL (0.5ms)[0m  [1mINSERT INTO "faqs" ("answer", "created_at", "order_id", "question", "updated_at") VALUES (?, ?, ?, ?, ?)[0m  [["answer", "A good teacher makes all the difference.\n\t\t\t\t\t\t\t\tDo you remember your favorite teacher from school? You probably learned more in his or her classes than you learned anywhere else. The best teachers make learning easy and fun.\n\t\t\t\t\t\t\t\tThese are the kinds of Instructors we have on our team. If you've ever tried to learn a skill but just didn't 'get' your teacher, we think you'll love learning with our instructors at SmartCoach.\n\t\t\t\t\t\t\t\tMeet our coaches by pressing coaches link in sub header menu."], ["created_at", Mon, 11 Mar 2013 10:00:20 UTC +00:00], ["order_id", 3], ["question", "Who is the coach here ?"], ["updated_at", Mon, 11 Mar 2013 10:00:20 UTC +00:00]]
+  [1m[35m (139.4ms)[0m  commit transaction
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.5ms)[0m  INSERT INTO "faqs" ("answer", "created_at", "order_id", "question", "updated_at") VALUES (?, ?, ?, ?, ?)  [["answer", "Our tutorials teach you one technique comprehensively and in great detail. When you complete a tutorial, we want to make sure that whatever you're learning, you really get it. Every tutorial goes above and beyond the quality and depth you can expect to find anywhere else. Our library includes both video and written tutorials with screenshots, so you can learn exactly how you like to learn.\n\t\t\t\t\t\t\t\t\tmembers get immediate access to hundreds of lessons and resources, but better yet, our library is always growing. We're adding new tutorials, courses and eBooks all the time, covering a broad range of creative and technical skills. There will always be something new and interesting for you to explore."], ["created_at", Mon, 11 Mar 2013 10:00:20 UTC +00:00], ["order_id", 4], ["question", "What is the quality of tutorials here ?"], ["updated_at", Mon, 11 Mar 2013 10:00:20 UTC +00:00]]
+  [1m[36m (131.1ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36mSQL (0.5ms)[0m  [1mINSERT INTO "faqs" ("answer", "created_at", "order_id", "question", "updated_at") VALUES (?, ?, ?, ?, ?)[0m  [["answer", "Membership cancellation is handled through your payment provider. You can cancel your membership at any time, for any reason."], ["created_at", Mon, 11 Mar 2013 10:00:20 UTC +00:00], ["order_id", 8], ["question", "I need to cancel my membership. What do I do?"], ["updated_at", Mon, 11 Mar 2013 10:00:20 UTC +00:00]]
+  [1m[35m (114.6ms)[0m  commit transaction
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.5ms)[0m  INSERT INTO "faqs" ("answer", "created_at", "order_id", "question", "updated_at") VALUES (?, ?, ?, ?, ?)  [["answer", "If you notice that something isn't working as it should be, we'd like to fix it. Please submit a Support Ticket so we can work on resolving the issue."], ["created_at", Mon, 11 Mar 2013 10:00:21 UTC +00:00], ["order_id", 9], ["question", "What should I do if something isn't working?"], ["updated_at", Mon, 11 Mar 2013 10:00:21 UTC +00:00]]
+  [1m[36m (107.8ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36mSQL (0.5ms)[0m  [1mINSERT INTO "faqs" ("answer", "created_at", "order_id", "question", "updated_at") VALUES (?, ?, ?, ?, ?)[0m  [["answer", "You can view the current Terms and Conditions for SmartCoach by pressing the link in the fotter of the page. "], ["created_at", Mon, 11 Mar 2013 10:00:21 UTC +00:00], ["order_id", 10], ["question", "What are the Terms & Conditions for SmartCoach Premium?"], ["updated_at", Mon, 11 Mar 2013 10:00:21 UTC +00:00]]
+  [1m[35m (122.9ms)[0m  commit transaction
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.5ms)[0m  INSERT INTO "faqs" ("answer", "created_at", "order_id", "question", "updated_at") VALUES (?, ?, ?, ?, ?)  [["answer", "A membership is inactive if it has not yet been paid for. If you believe you have paid for your membership, but its status is still inactive, you may have paid via eCheque. eCheques are a PayPal debit to your bank account, and can take several business days to clear. Your membership will not become active until the eCheque clears and we receive your payment (you can check the status of your payment in PayPal).\n\t\t\t\t\t\t\t\t\t\t\t\t\tIf you believe you have paid for your membership by a method other than eCheque and it is still not listed as active, you should create a support ticket before trying to make another payment. Please include your SmartCoach username and describe anything unusual you noticed while trying to sign up and pay for your membership."], ["created_at", Mon, 11 Mar 2013 10:00:21 UTC +00:00], ["order_id", 11], ["question", "Why is my membership inactive?"], ["updated_at", Mon, 11 Mar 2013 10:00:21 UTC +00:00]]
+  [1m[36m (114.8ms)[0m  [1mcommit transaction[0m
+Creating scope :page. Overwriting existing method Topic.page.
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36mSQL (0.7ms)[0m  [1mINSERT INTO "topics" ("created_at", "desc", "name", "updated_at") VALUES (?, ?, ?, ?)[0m  [["created_at", Mon, 11 Mar 2013 10:00:21 UTC +00:00], ["desc", "Topic Web Development"], ["name", "Web Development"], ["updated_at", Mon, 11 Mar 2013 10:00:21 UTC +00:00]]
+  [1m[35m (107.0ms)[0m  commit transaction
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.6ms)[0m  INSERT INTO "topics" ("created_at", "desc", "name", "updated_at") VALUES (?, ?, ?, ?)  [["created_at", Mon, 11 Mar 2013 10:00:21 UTC +00:00], ["desc", "Topic Web Design"], ["name", "Web Design"], ["updated_at", Mon, 11 Mar 2013 10:00:21 UTC +00:00]]
+  [1m[36m (121.8ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36mSQL (0.5ms)[0m  [1mINSERT INTO "topics" ("created_at", "desc", "name", "updated_at") VALUES (?, ?, ?, ?)[0m  [["created_at", Mon, 11 Mar 2013 10:00:21 UTC +00:00], ["desc", "Topic Software Development"], ["name", "Software Development"], ["updated_at", Mon, 11 Mar 2013 10:00:21 UTC +00:00]]
+  [1m[35m (114.6ms)[0m  commit transaction
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.5ms)[0m  INSERT INTO "topics" ("created_at", "desc", "name", "updated_at") VALUES (?, ?, ?, ?)  [["created_at", Mon, 11 Mar 2013 10:00:21 UTC +00:00], ["desc", "Topic Business"], ["name", "Business"], ["updated_at", Mon, 11 Mar 2013 10:00:21 UTC +00:00]]
+  [1m[36m (123.1ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36mSQL (0.5ms)[0m  [1mINSERT INTO "topics" ("created_at", "desc", "name", "updated_at") VALUES (?, ?, ?, ?)[0m  [["created_at", Mon, 11 Mar 2013 10:00:21 UTC +00:00], ["desc", "Topic Photoshop"], ["name", "Photoshop"], ["updated_at", Mon, 11 Mar 2013 10:00:21 UTC +00:00]]
+  [1m[35m (116.3ms)[0m  commit transaction
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.5ms)[0m  INSERT INTO "topics" ("created_at", "desc", "name", "updated_at") VALUES (?, ?, ?, ?)  [["created_at", Mon, 11 Mar 2013 10:00:22 UTC +00:00], ["desc", "Topic Mobile development"], ["name", "Mobile development"], ["updated_at", Mon, 11 Mar 2013 10:00:22 UTC +00:00]]
+  [1m[36m (114.6ms)[0m  [1mcommit transaction[0m
+Creating scope :page. Overwriting existing method Group.page.
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36mSQL (0.8ms)[0m  [1mINSERT INTO "groups" ("created_at", "name", "updated_at") VALUES (?, ?, ?)[0m  [["created_at", Mon, 11 Mar 2013 10:00:22 UTC +00:00], ["name", "Web Development"], ["updated_at", Mon, 11 Mar 2013 10:00:22 UTC +00:00]]
+  [1m[35m (103.5ms)[0m  commit transaction
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.6ms)[0m  INSERT INTO "groups" ("created_at", "name", "updated_at") VALUES (?, ?, ?)  [["created_at", Mon, 11 Mar 2013 10:00:22 UTC +00:00], ["name", "Web Design"], ["updated_at", Mon, 11 Mar 2013 10:00:22 UTC +00:00]]
+  [1m[36m (121.7ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36mSQL (0.5ms)[0m  [1mINSERT INTO "groups" ("created_at", "name", "updated_at") VALUES (?, ?, ?)[0m  [["created_at", Mon, 11 Mar 2013 10:00:22 UTC +00:00], ["name", "Software Development"], ["updated_at", Mon, 11 Mar 2013 10:00:22 UTC +00:00]]
+  [1m[35m (123.0ms)[0m  commit transaction
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.5ms)[0m  INSERT INTO "groups" ("created_at", "name", "updated_at") VALUES (?, ?, ?)  [["created_at", Mon, 11 Mar 2013 10:00:22 UTC +00:00], ["name", "Business"], ["updated_at", Mon, 11 Mar 2013 10:00:22 UTC +00:00]]
+  [1m[36m (106.4ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36mSQL (0.5ms)[0m  [1mINSERT INTO "groups" ("created_at", "name", "updated_at") VALUES (?, ?, ?)[0m  [["created_at", Mon, 11 Mar 2013 10:00:22 UTC +00:00], ["name", "Photoshop"], ["updated_at", Mon, 11 Mar 2013 10:00:22 UTC +00:00]]
+  [1m[35m (106.4ms)[0m  commit transaction
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.5ms)[0m  INSERT INTO "groups" ("created_at", "name", "updated_at") VALUES (?, ?, ?)  [["created_at", Mon, 11 Mar 2013 10:00:22 UTC +00:00], ["name", "Mobile development"], ["updated_at", Mon, 11 Mar 2013 10:00:22 UTC +00:00]]
+  [1m[36m (116.4ms)[0m  [1mcommit transaction[0m
+Creating scope :page. Overwriting existing method Tag.page.
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36mSQL (0.8ms)[0m  [1mINSERT INTO "tags" ("created_at", "name", "updated_at") VALUES (?, ?, ?)[0m  [["created_at", Mon, 11 Mar 2013 10:00:23 UTC +00:00], ["name", "Web Development"], ["updated_at", Mon, 11 Mar 2013 10:00:23 UTC +00:00]]
+  [1m[35m (117.1ms)[0m  commit transaction
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.6ms)[0m  INSERT INTO "tags" ("created_at", "name", "updated_at") VALUES (?, ?, ?)  [["created_at", Mon, 11 Mar 2013 10:00:23 UTC +00:00], ["name", "Web Design"], ["updated_at", Mon, 11 Mar 2013 10:00:23 UTC +00:00]]
+  [1m[36m (113.3ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36mSQL (0.5ms)[0m  [1mINSERT INTO "tags" ("created_at", "name", "updated_at") VALUES (?, ?, ?)[0m  [["created_at", Mon, 11 Mar 2013 10:00:23 UTC +00:00], ["name", "Software Development"], ["updated_at", Mon, 11 Mar 2013 10:00:23 UTC +00:00]]
+  [1m[35m (114.7ms)[0m  commit transaction
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.5ms)[0m  INSERT INTO "tags" ("created_at", "name", "updated_at") VALUES (?, ?, ?)  [["created_at", Mon, 11 Mar 2013 10:00:23 UTC +00:00], ["name", "Business"], ["updated_at", Mon, 11 Mar 2013 10:00:23 UTC +00:00]]
+  [1m[36m (106.5ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36mSQL (0.5ms)[0m  [1mINSERT INTO "tags" ("created_at", "name", "updated_at") VALUES (?, ?, ?)[0m  [["created_at", Mon, 11 Mar 2013 10:00:23 UTC +00:00], ["name", "Photoshop"], ["updated_at", Mon, 11 Mar 2013 10:00:23 UTC +00:00]]
+  [1m[35m (106.5ms)[0m  commit transaction
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.5ms)[0m  INSERT INTO "tags" ("created_at", "name", "updated_at") VALUES (?, ?, ?)  [["created_at", Mon, 11 Mar 2013 10:00:23 UTC +00:00], ["name", "Mobile development"], ["updated_at", Mon, 11 Mar 2013 10:00:23 UTC +00:00]]
+  [1m[36m (131.4ms)[0m  [1mcommit transaction[0m
+Creating scope :page. Overwriting existing method Course.page.
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36mSQL (0.8ms)[0m  [1mINSERT INTO "courses" ("author", "created_at", "desc", "image", "ispublished", "releasemonth", "title", "updated_at", "user_id") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)[0m  [["author", "Eladio Larson"], ["created_at", Mon, 11 Mar 2013 10:00:23 UTC +00:00], ["desc", "Have you been wanting to learn SQL, but have not start yet? Or, maybe you know some SQL, but you need a better understanding of it. Either way, this course is just right for you. Andrew Burgess is teaching on the basic use of SQL with MySQL server and using it from PHP. So, let's get started!"], ["image", "sqlessentials.png"], ["ispublished", 0], ["releasemonth", "January"], ["title", "SQL Essentials"], ["updated_at", Mon, 11 Mar 2013 10:00:23 UTC +00:00], ["user_id", 1]]
+  [1m[35m (115.5ms)[0m  commit transaction
+Creating scope :page. Overwriting existing method Relationship.page.
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.7ms)[0m  INSERT INTO "relationships" ("course_id", "created_at", "topic_id", "updated_at") VALUES (?, ?, ?, ?)  [["course_id", 1], ["created_at", Mon, 11 Mar 2013 10:00:23 UTC +00:00], ["topic_id", 1], ["updated_at", Mon, 11 Mar 2013 10:00:23 UTC +00:00]]
+  [1m[36m (115.4ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36mSQL (0.7ms)[0m  [1mINSERT INTO "relationships" ("course_id", "created_at", "topic_id", "updated_at") VALUES (?, ?, ?, ?)[0m  [["course_id", 1], ["created_at", Mon, 11 Mar 2013 10:00:24 UTC +00:00], ["topic_id", 3], ["updated_at", Mon, 11 Mar 2013 10:00:24 UTC +00:00]]
+  [1m[35m (121.5ms)[0m  commit transaction
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.7ms)[0m  INSERT INTO "courses" ("author", "created_at", "desc", "image", "ispublished", "releasemonth", "title", "updated_at", "user_id") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)  [["author", "Blake Ziemann IV"], ["created_at", Mon, 11 Mar 2013 10:00:24 UTC +00:00], ["desc", "So you have learned a bit about JavaScript testing, and are now ready to begin testing your Backbone apps. The only problem is that your team uses Require.js to organize and load your scripts. This can make your modules considerably more difficult to test. In this screencast, I will break everything down. In addition to Backbone and Require.js, we will be using Jam to load our dependencies, and Testem, which provides an easy interface to perform automated tests (using Jasmine). Finally, we will create a minimal build script."], ["image", "organizing.jpg"], ["ispublished", 1], ["releasemonth", "January"], ["title", "Organizing Testable Backbone and Require.js Applications"], ["updated_at", Mon, 11 Mar 2013 10:00:24 UTC +00:00], ["user_id", 2]]
+  [1m[36m (112.8ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36mSQL (0.5ms)[0m  [1mINSERT INTO "relationships" ("course_id", "created_at", "topic_id", "updated_at") VALUES (?, ?, ?, ?)[0m  [["course_id", 2], ["created_at", Mon, 11 Mar 2013 10:00:24 UTC +00:00], ["topic_id", 1], ["updated_at", Mon, 11 Mar 2013 10:00:24 UTC +00:00]]
+  [1m[35m (114.7ms)[0m  commit transaction
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.5ms)[0m  INSERT INTO "relationships" ("course_id", "created_at", "topic_id", "updated_at") VALUES (?, ?, ?, ?)  [["course_id", 2], ["created_at", Mon, 11 Mar 2013 10:00:24 UTC +00:00], ["topic_id", 3], ["updated_at", Mon, 11 Mar 2013 10:00:24 UTC +00:00]]
+  [1m[36m (131.5ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36mSQL (0.6ms)[0m  [1mINSERT INTO "courses" ("author", "created_at", "desc", "image", "ispublished", "releasemonth", "title", "updated_at", "user_id") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)[0m  [["author", "Adolfo Heller"], ["created_at", Mon, 11 Mar 2013 10:00:24 UTC +00:00], ["desc", "Have you ever wanted to learn to make Windows programs using the .NET Library? Well, Jeremy is here to teach us how to do it. Come and join the fun!"], ["image", "progWNet.png"], ["ispublished", 1], ["releasemonth", "January"], ["title", "Programming Windows in .NET"], ["updated_at", Mon, 11 Mar 2013 10:00:24 UTC +00:00], ["user_id", 3]]
+  [1m[35m (105.1ms)[0m  commit transaction
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.5ms)[0m  INSERT INTO "relationships" ("course_id", "created_at", "topic_id", "updated_at") VALUES (?, ?, ?, ?)  [["course_id", 3], ["created_at", Mon, 11 Mar 2013 10:00:24 UTC +00:00], ["topic_id", 3], ["updated_at", Mon, 11 Mar 2013 10:00:24 UTC +00:00]]
+  [1m[36m (132.9ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36mSQL (0.6ms)[0m  [1mINSERT INTO "courses" ("author", "created_at", "desc", "image", "ispublished", "releasemonth", "title", "updated_at", "user_id") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)[0m  [["author", "Amir Williamson"], ["created_at", Mon, 11 Mar 2013 10:00:24 UTC +00:00], ["desc", "In this course, I will show you all of the cool features that the LESS CSS preprocessor provides, in order to make writing CSS more awesome! You will learn all the ins and outs, including variables, nesting, Math and color functions, namespacing, and the various forms of mixins. In no time, you will master the syntax!"], ["image", "less-is-more.jpg"], ["ispublished", 1], ["releasemonth", "January"], ["title", "Less is More"], ["updated_at", Mon, 11 Mar 2013 10:00:24 UTC +00:00], ["user_id", 1]]
+  [1m[35m (130.2ms)[0m  commit transaction
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.5ms)[0m  INSERT INTO "relationships" ("course_id", "created_at", "topic_id", "updated_at") VALUES (?, ?, ?, ?)  [["course_id", 4], ["created_at", Mon, 11 Mar 2013 10:00:24 UTC +00:00], ["topic_id", 1], ["updated_at", Mon, 11 Mar 2013 10:00:24 UTC +00:00]]
+  [1m[36m (106.3ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36mSQL (0.5ms)[0m  [1mINSERT INTO "relationships" ("course_id", "created_at", "topic_id", "updated_at") VALUES (?, ?, ?, ?)[0m  [["course_id", 4], ["created_at", Mon, 11 Mar 2013 10:00:25 UTC +00:00], ["topic_id", 3], ["updated_at", Mon, 11 Mar 2013 10:00:25 UTC +00:00]]
+  [1m[35m (114.8ms)[0m  commit transaction
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.6ms)[0m  INSERT INTO "courses" ("author", "created_at", "desc", "image", "ispublished", "releasemonth", "title", "updated_at", "user_id") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)  [["author", "Emma Bogisich"], ["created_at", Mon, 11 Mar 2013 10:00:25 UTC +00:00], ["desc", "Been meaning to learn Ruby on Rails, but felt that it was too hard? Well, not anymore. In this course, Jose Mota will take you through the process of creating dynamic and creative web applications, using Ruby on Rails. Come join us for the ride!"], ["image", "RidingRuby100x100.png"], ["ispublished", 0], ["releasemonth", "January"], ["title", "Riding Ruby on Rails"], ["updated_at", Mon, 11 Mar 2013 10:00:25 UTC +00:00], ["user_id", 5]]
+  [1m[36m (113.4ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36mSQL (0.5ms)[0m  [1mINSERT INTO "relationships" ("course_id", "created_at", "topic_id", "updated_at") VALUES (?, ?, ?, ?)[0m  [["course_id", 5], ["created_at", Mon, 11 Mar 2013 10:00:25 UTC +00:00], ["topic_id", 1], ["updated_at", Mon, 11 Mar 2013 10:00:25 UTC +00:00]]
+  [1m[35m (114.7ms)[0m  commit transaction
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.5ms)[0m  INSERT INTO "relationships" ("course_id", "created_at", "topic_id", "updated_at") VALUES (?, ?, ?, ?)  [["course_id", 5], ["created_at", Mon, 11 Mar 2013 10:00:25 UTC +00:00], ["topic_id", 3], ["updated_at", Mon, 11 Mar 2013 10:00:25 UTC +00:00]]
+  [1m[36m (114.9ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36mSQL (0.6ms)[0m  [1mINSERT INTO "courses" ("author", "created_at", "desc", "image", "ispublished", "releasemonth", "title", "updated_at", "user_id") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)[0m  [["author", "Gavin Schmeler"], ["created_at", Mon, 11 Mar 2013 10:00:25 UTC +00:00], ["desc", "Node.js is the JavaScript engine for Chrome, moved to the command line for use as a general programming language. In this course, you will learn how to make use this engine to build web applications with ease."], ["image", "nodejs.jpg"], ["ispublished", 1], ["releasemonth", "January"], ["title", "Build Web Apps in Node and Express"], ["updated_at", Mon, 11 Mar 2013 10:00:25 UTC +00:00], ["user_id", 1]]
+  [1m[35m (115.3ms)[0m  commit transaction
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.5ms)[0m  INSERT INTO "relationships" ("course_id", "created_at", "topic_id", "updated_at") VALUES (?, ?, ?, ?)  [["course_id", 6], ["created_at", Mon, 11 Mar 2013 10:00:25 UTC +00:00], ["topic_id", 2], ["updated_at", Mon, 11 Mar 2013 10:00:25 UTC +00:00]]
+  [1m[36m (106.4ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36mSQL (0.6ms)[0m  [1mINSERT INTO "courses" ("author", "created_at", "desc", "image", "ispublished", "releasemonth", "title", "updated_at", "user_id") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)[0m  [["author", "Terrence Bechtelar"], ["created_at", Mon, 11 Mar 2013 10:00:25 UTC +00:00], ["desc", "This course will explain the fundamental aspects of writing great jQuery plugins. Some of the topics we will cover include how plugins extend jQuery is prototype to add new methods to the library, understanding the this object inside a plugin, keeping plugins configurable, theming them, handling events and exposing AJAX options for easier implementation by others. Sound fun?"], ["image", "jquery.jpg"], ["ispublished", 1], ["releasemonth", "January"], ["title", "jQuery Plugin Development: Best Practices"], ["updated_at", Mon, 11 Mar 2013 10:00:25 UTC +00:00], ["user_id", 1]]
+  [1m[35m (121.7ms)[0m  commit transaction
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.5ms)[0m  INSERT INTO "relationships" ("course_id", "created_at", "topic_id", "updated_at") VALUES (?, ?, ?, ?)  [["course_id", 7], ["created_at", Mon, 11 Mar 2013 10:00:25 UTC +00:00], ["topic_id", 1], ["updated_at", Mon, 11 Mar 2013 10:00:25 UTC +00:00]]
+  [1m[36m (131.4ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36mSQL (0.5ms)[0m  [1mINSERT INTO "relationships" ("course_id", "created_at", "topic_id", "updated_at") VALUES (?, ?, ?, ?)[0m  [["course_id", 7], ["created_at", Mon, 11 Mar 2013 10:00:25 UTC +00:00], ["topic_id", 2], ["updated_at", Mon, 11 Mar 2013 10:00:25 UTC +00:00]]
+  [1m[35m (106.5ms)[0m  commit transaction
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.5ms)[0m  INSERT INTO "relationships" ("course_id", "created_at", "topic_id", "updated_at") VALUES (?, ?, ?, ?)  [["course_id", 7], ["created_at", Mon, 11 Mar 2013 10:00:26 UTC +00:00], ["topic_id", 3], ["updated_at", Mon, 11 Mar 2013 10:00:26 UTC +00:00]]
+  [1m[36m (114.7ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36mSQL (0.6ms)[0m  [1mINSERT INTO "courses" ("author", "created_at", "desc", "image", "ispublished", "releasemonth", "title", "updated_at", "user_id") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)[0m  [["author", "Dean Sawayn"], ["created_at", Mon, 11 Mar 2013 10:00:26 UTC +00:00], ["desc", "Welcome! In this course, we are going to take the knowledge that you have gained from coding for the browser, and apply it to the server environment. Over the next fifteen lessons, we will start from the beginning, get Node installed and running, and then move on to more complex projects that will explore the basics tools and functionality that the Node.js platform has to offer."], ["image", "sublime.jpg"], ["ispublished", 0], ["releasemonth", "March"], ["title", "Perfect Workflow in Sublime Text 2"], ["updated_at", Mon, 11 Mar 2013 10:00:26 UTC +00:00], ["user_id", 2]]
+  [1m[35m (113.4ms)[0m  commit transaction
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.5ms)[0m  INSERT INTO "relationships" ("course_id", "created_at", "topic_id", "updated_at") VALUES (?, ?, ?, ?)  [["course_id", 8], ["created_at", Mon, 11 Mar 2013 10:00:26 UTC +00:00], ["topic_id", 1], ["updated_at", Mon, 11 Mar 2013 10:00:26 UTC +00:00]]
+  [1m[36m (116.4ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36mSQL (0.6ms)[0m  [1mINSERT INTO "courses" ("author", "created_at", "desc", "image", "ispublished", "releasemonth", "title", "updated_at", "user_id") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)[0m  [["author", "Dr. Tara D'Amore"], ["created_at", Mon, 11 Mar 2013 10:00:26 UTC +00:00], ["desc", "I am a confessed code editor addict, and have tried them all! I was an early adopter of Coda, a TextMate advocate, even a Vim convert. But all of that changed when I discovered Sublime Text 2, the best code editor available today. Do not believe me? Let me convince you in this course."], ["image", "nodejs.jpg"], ["ispublished", 1], ["releasemonth", "January"], ["title", "An Introduction to Node.js"], ["updated_at", Mon, 11 Mar 2013 10:00:26 UTC +00:00], ["user_id", 3]]
+  [1m[35m (121.8ms)[0m  commit transaction
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.5ms)[0m  INSERT INTO "relationships" ("course_id", "created_at", "topic_id", "updated_at") VALUES (?, ?, ?, ?)  [["course_id", 9], ["created_at", Mon, 11 Mar 2013 10:00:26 UTC +00:00], ["topic_id", 1], ["updated_at", Mon, 11 Mar 2013 10:00:26 UTC +00:00]]
+  [1m[36m (131.4ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36mSQL (0.5ms)[0m  [1mINSERT INTO "relationships" ("course_id", "created_at", "topic_id", "updated_at") VALUES (?, ?, ?, ?)[0m  [["course_id", 9], ["created_at", Mon, 11 Mar 2013 10:00:26 UTC +00:00], ["topic_id", 2], ["updated_at", Mon, 11 Mar 2013 10:00:26 UTC +00:00]]
+  [1m[35m (114.8ms)[0m  commit transaction
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.6ms)[0m  INSERT INTO "courses" ("author", "created_at", "desc", "image", "ispublished", "releasemonth", "title", "updated_at", "user_id") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)  [["author", "Cristal Hamill"], ["created_at", Mon, 11 Mar 2013 10:00:26 UTC +00:00], ["desc", "For over ten years, Microsoft's .NET Framework has been the platform to develop for if you want to target Windows or Windows-based technologies. Getting started with the .NET Framework can be a daunting task, as the .NET Framework class library is pretty darn big. But, thankfully, there are a core set of classes that you can use in any Windows or Web app. In this course, we will take a look at these classes and how we can use them in our code."], ["image", "100-netprogramming.png"], ["ispublished", 1], ["releasemonth", "January"], ["title", "Programming .NET"], ["updated_at", Mon, 11 Mar 2013 10:00:26 UTC +00:00], ["user_id", 5]]
+  [1m[36m (124.8ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36mSQL (0.5ms)[0m  [1mINSERT INTO "relationships" ("course_id", "created_at", "topic_id", "updated_at") VALUES (?, ?, ?, ?)[0m  [["course_id", 10], ["created_at", Mon, 11 Mar 2013 10:00:26 UTC +00:00], ["topic_id", 3], ["updated_at", Mon, 11 Mar 2013 10:00:26 UTC +00:00]]
+  [1m[35m (220.1ms)[0m  commit transaction
+Creating scope :page. Overwriting existing method Tutorial.page.
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.9ms)[0m  INSERT INTO "tutorials" ("author", "created_at", "desc", "difficulty", "estimated_time", "image", "ispublished", "releasemonth", "title", "updated_at", "user_id") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)  [["author", "Aglae Lakin"], ["created_at", Mon, 11 Mar 2013 10:00:27 UTC +00:00], ["desc", "Here's the thing: if you can't fathom why you'd need a framework like Backbone, then chances are, you don't! Perhaps you're exclusively working on simple websites or basic WordPress themes; in these cases, a structured JavaScript framework will likely be overkill.\n\t\t\t \tHowever, there will surely come a day when you realize that all of that spaghetti code within script tags at the bottom of your page has suddenly become unmanageable. Not only that, but, due to the way you structured your code, it's also impossible to test. Gasp! What to do?"], ["difficulty", "Medium"], ["estimated_time", 60], ["image", "tutorials/backbone.png"], ["ispublished", 1], ["releasemonth", "January"], ["title", "Connected to the Backbone"], ["updated_at", Mon, 11 Mar 2013 10:00:27 UTC +00:00], ["user_id", 1]]
+  [1m[36m (114.2ms)[0m  [1mcommit transaction[0m
+Creating scope :page. Overwriting existing method Grouping.page.
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36mSQL (0.7ms)[0m  [1mINSERT INTO "groupings" ("created_at", "group_id", "tutorial_id", "updated_at") VALUES (?, ?, ?, ?)[0m  [["created_at", Mon, 11 Mar 2013 10:00:27 UTC +00:00], ["group_id", 1], ["tutorial_id", 1], ["updated_at", Mon, 11 Mar 2013 10:00:27 UTC +00:00]]
+  [1m[35m (116.2ms)[0m  commit transaction
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.6ms)[0m  INSERT INTO "groupings" ("created_at", "group_id", "tutorial_id", "updated_at") VALUES (?, ?, ?, ?)  [["created_at", Mon, 11 Mar 2013 10:00:27 UTC +00:00], ["group_id", 3], ["tutorial_id", 1], ["updated_at", Mon, 11 Mar 2013 10:00:27 UTC +00:00]]
+  [1m[36m (121.7ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36mSQL (0.6ms)[0m  [1mINSERT INTO "tutorials" ("author", "created_at", "desc", "difficulty", "estimated_time", "image", "ispublished", "releasemonth", "title", "updated_at", "user_id") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)[0m  [["author", "Mckenna Feest"], ["created_at", Mon, 11 Mar 2013 10:00:27 UTC +00:00], ["desc", "Those of us who use Laravel on a daily basis will be quite familiar with migrations. The only problem is that, when we run php artisan migration:make, only a bit of boilerplate code is generated for us. Wouldn't it be amazing if we could also generate the schema for both the up and down functions? How much time would that save!?"], ["difficulty", "Easy"], ["estimated_time", 30], ["image", "tutorials/laravel-generators.jpg"], ["ispublished", 1], ["releasemonth", "January"], ["title", "The Power of Laravel Generators"], ["updated_at", Mon, 11 Mar 2013 10:00:27 UTC +00:00], ["user_id", 2]]
+  [1m[35m (146.0ms)[0m  commit transaction
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.5ms)[0m  INSERT INTO "groupings" ("created_at", "group_id", "tutorial_id", "updated_at") VALUES (?, ?, ?, ?)  [["created_at", Mon, 11 Mar 2013 10:00:27 UTC +00:00], ["group_id", 1], ["tutorial_id", 2], ["updated_at", Mon, 11 Mar 2013 10:00:27 UTC +00:00]]
+  [1m[36m (114.6ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36mSQL (0.6ms)[0m  [1mINSERT INTO "tutorials" ("author", "created_at", "desc", "difficulty", "estimated_time", "image", "ispublished", "releasemonth", "title", "updated_at", "user_id") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)[0m  [["author", "Celia Brown"], ["created_at", Mon, 11 Mar 2013 10:00:27 UTC +00:00], ["desc", "Whether you're taking part in the discussion, or reading articles about it, you must be aware that, even though it's still a specification, HTML5 is ready to be used right now."], ["difficulty", "Hard"], ["estimated_time", 100], ["image", "tutorials/develop-game-in-canvas.jpg"], ["ispublished", 0], ["releasemonth", "May"], ["title", "Develop Your First Game in Canvas From Start to Finish"], ["updated_at", Mon, 11 Mar 2013 10:00:27 UTC +00:00], ["user_id", 1]]
+  [1m[35m (146.5ms)[0m  commit transaction
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.5ms)[0m  INSERT INTO "groupings" ("created_at", "group_id", "tutorial_id", "updated_at") VALUES (?, ?, ?, ?)  [["created_at", Mon, 11 Mar 2013 10:00:28 UTC +00:00], ["group_id", 1], ["tutorial_id", 3], ["updated_at", Mon, 11 Mar 2013 10:00:28 UTC +00:00]]
+  [1m[36m (114.4ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36mSQL (0.5ms)[0m  [1mINSERT INTO "groupings" ("created_at", "group_id", "tutorial_id", "updated_at") VALUES (?, ?, ?, ?)[0m  [["created_at", Mon, 11 Mar 2013 10:00:28 UTC +00:00], ["group_id", 4], ["tutorial_id", 3], ["updated_at", Mon, 11 Mar 2013 10:00:28 UTC +00:00]]
+  [1m[35m (114.7ms)[0m  commit transaction
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.7ms)[0m  INSERT INTO "tutorials" ("author", "created_at", "desc", "difficulty", "estimated_time", "image", "ispublished", "releasemonth", "title", "updated_at", "user_id") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)  [["author", "Abdiel Schuster"], ["created_at", Mon, 11 Mar 2013 10:00:28 UTC +00:00], ["desc", "One of the questions that I am asked about most frequently relates to how I styled my Terminal. In this video, I encourage you to follow along with me, as we get everything setup from scratch."], ["difficulty", "Easy"], ["estimated_time", 30], ["image", "tutorials/styling-terminal.jpg"], ["ispublished", 1], ["releasemonth", "May"], ["title", "A Visual Guide to Styling the Terminal in Minutes"], ["updated_at", Mon, 11 Mar 2013 10:00:28 UTC +00:00], ["user_id", 3]]
+  [1m[36m (131.5ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36mSQL (0.5ms)[0m  [1mINSERT INTO "groupings" ("created_at", "group_id", "tutorial_id", "updated_at") VALUES (?, ?, ?, ?)[0m  [["created_at", Mon, 11 Mar 2013 10:00:28 UTC +00:00], ["group_id", 1], ["tutorial_id", 4], ["updated_at", Mon, 11 Mar 2013 10:00:28 UTC +00:00]]
+  [1m[35m (114.6ms)[0m  commit transaction
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.5ms)[0m  INSERT INTO "groupings" ("created_at", "group_id", "tutorial_id", "updated_at") VALUES (?, ?, ?, ?)  [["created_at", Mon, 11 Mar 2013 10:00:28 UTC +00:00], ["group_id", 2], ["tutorial_id", 4], ["updated_at", Mon, 11 Mar 2013 10:00:28 UTC +00:00]]
+  [1m[36m (114.8ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36mSQL (0.6ms)[0m  [1mINSERT INTO "tutorials" ("author", "created_at", "desc", "difficulty", "estimated_time", "image", "ispublished", "releasemonth", "title", "updated_at", "user_id") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)[0m  [["author", "Jedediah Zemlak"], ["created_at", Mon, 11 Mar 2013 10:00:28 UTC +00:00], ["desc", "Let's target the elephant in the room: PHP has been on the receiving end of a considerable amount of flack in the last few years. Well, who are we kidding? It's always served as the punching bag for the cool kids! But there's just one thing; despite all of this ridicule, PHP continues, with ease, to remain infinitely more popular than its server-side competitors in terms of users."], ["difficulty", "Medium"], ["estimated_time", 60], ["image", "tutorials/php.jpg"], ["ispublished", 1], ["releasemonth", "January"], ["title", "PHP Tips and Tricks"], ["updated_at", Mon, 11 Mar 2013 10:00:28 UTC +00:00], ["user_id", 5]]
+  [1m[35m (146.4ms)[0m  commit transaction
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.5ms)[0m  INSERT INTO "groupings" ("created_at", "group_id", "tutorial_id", "updated_at") VALUES (?, ?, ?, ?)  [["created_at", Mon, 11 Mar 2013 10:00:28 UTC +00:00], ["group_id", 2], ["tutorial_id", 5], ["updated_at", Mon, 11 Mar 2013 10:00:28 UTC +00:00]]
+  [1m[36m (114.6ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36mSQL (0.7ms)[0m  [1mINSERT INTO "tutorials" ("author", "created_at", "desc", "difficulty", "estimated_time", "image", "ispublished", "releasemonth", "title", "updated_at", "user_id") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)[0m  [["author", "Morris Ritchie"], ["created_at", Mon, 11 Mar 2013 10:00:28 UTC +00:00], ["desc", "Today we're going to create a small realtime web application with FuelPHP on the server, Backbone.js on the client and using the Pusher API for the realtime aspects. The application we'll be building is a modern take on my classic Shoutbox PHP demo application I originally wrote six years ago here on SmartCoach, and covered again not long after in Ruby on Rails."], ["difficulty", "Hard"], ["estimated_time", 90], ["image", "tutorials/backbone-and-pusher.png"], ["ispublished", 0], ["releasemonth", "December"], ["title", "Realtime Backbone.js Apps with FuelPHP and Pusher"], ["updated_at", Mon, 11 Mar 2013 10:00:28 UTC +00:00], ["user_id", 1]]
+  [1m[35m (130.1ms)[0m  commit transaction
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.5ms)[0m  INSERT INTO "groupings" ("created_at", "group_id", "tutorial_id", "updated_at") VALUES (?, ?, ?, ?)  [["created_at", Mon, 11 Mar 2013 10:00:29 UTC +00:00], ["group_id", 2], ["tutorial_id", 6], ["updated_at", Mon, 11 Mar 2013 10:00:29 UTC +00:00]]
+  [1m[36m (114.5ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36mSQL (0.5ms)[0m  [1mINSERT INTO "groupings" ("created_at", "group_id", "tutorial_id", "updated_at") VALUES (?, ?, ?, ?)[0m  [["created_at", Mon, 11 Mar 2013 10:00:29 UTC +00:00], ["group_id", 3], ["tutorial_id", 6], ["updated_at", Mon, 11 Mar 2013 10:00:29 UTC +00:00]]
+  [1m[35m (124.7ms)[0m  commit transaction
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.7ms)[0m  INSERT INTO "tutorials" ("author", "created_at", "desc", "difficulty", "estimated_time", "image", "ispublished", "releasemonth", "title", "updated_at", "user_id") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)  [["author", "Bernhard Trantow"], ["created_at", Mon, 11 Mar 2013 10:00:29 UTC +00:00], ["desc", "Believe it or not, the concept of optimizing front-end code for maximum performance is a relatively new thing. Sure, years and years ago, we knew that it was important, but we simply didn't have access to the tools that we do today. Even six years ago, we were far more concerned with wrangling our websites into functioning correctly in Internet Explorer 6 than with squeezing every ounce of performance out of our applications."], ["difficulty", "Hard"], ["estimated_time", 90], ["image", "tutorials/front-end-performance.jpg"], ["ispublished", 0], ["releasemonth", "May"], ["title", "Front-end Performance Optimization: What, Why and How?"], ["updated_at", Mon, 11 Mar 2013 10:00:29 UTC +00:00], ["user_id", 1]]
+  [1m[36m (129.8ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36mSQL (0.5ms)[0m  [1mINSERT INTO "groupings" ("created_at", "group_id", "tutorial_id", "updated_at") VALUES (?, ?, ?, ?)[0m  [["created_at", Mon, 11 Mar 2013 10:00:29 UTC +00:00], ["group_id", 1], ["tutorial_id", 7], ["updated_at", Mon, 11 Mar 2013 10:00:29 UTC +00:00]]
+  [1m[35m (122.9ms)[0m  commit transaction
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.5ms)[0m  INSERT INTO "groupings" ("created_at", "group_id", "tutorial_id", "updated_at") VALUES (?, ?, ?, ?)  [["created_at", Mon, 11 Mar 2013 10:00:29 UTC +00:00], ["group_id", 2], ["tutorial_id", 7], ["updated_at", Mon, 11 Mar 2013 10:00:29 UTC +00:00]]
+  [1m[36m (123.1ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36mSQL (0.6ms)[0m  [1mINSERT INTO "tutorials" ("author", "created_at", "desc", "difficulty", "estimated_time", "image", "ispublished", "releasemonth", "title", "updated_at", "user_id") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)[0m  [["author", "Elizabeth Keebler"], ["created_at", Mon, 11 Mar 2013 10:00:29 UTC +00:00], ["desc", "In this screencast, we'll review RequireJS, an asynchronous module loader and dependency manager, and AMD, which defines the mechanism and guidelines for declaring and importing modules."], ["difficulty", "Easy"], ["estimated_time", 30], ["image", "tutorials/preview.jpg"], ["ispublished", 1], ["releasemonth", "May"], ["title", "The Essentials of AMD and RequireJS"], ["updated_at", Mon, 11 Mar 2013 10:00:29 UTC +00:00], ["user_id", 2]]
+  [1m[35m (130.1ms)[0m  commit transaction
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.5ms)[0m  INSERT INTO "groupings" ("created_at", "group_id", "tutorial_id", "updated_at") VALUES (?, ?, ?, ?)  [["created_at", Mon, 11 Mar 2013 10:00:29 UTC +00:00], ["group_id", 1], ["tutorial_id", 8], ["updated_at", Mon, 11 Mar 2013 10:00:29 UTC +00:00]]
+  [1m[36m (114.6ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36mSQL (0.5ms)[0m  [1mINSERT INTO "groupings" ("created_at", "group_id", "tutorial_id", "updated_at") VALUES (?, ?, ?, ?)[0m  [["created_at", Mon, 11 Mar 2013 10:00:29 UTC +00:00], ["group_id", 7], ["tutorial_id", 8], ["updated_at", Mon, 11 Mar 2013 10:00:29 UTC +00:00]]
+  [1m[35m (131.4ms)[0m  commit transaction
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.7ms)[0m  INSERT INTO "tutorials" ("author", "created_at", "desc", "difficulty", "estimated_time", "image", "ispublished", "releasemonth", "title", "updated_at", "user_id") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)  [["author", "Mikayla Feest DDS"], ["created_at", Mon, 11 Mar 2013 10:00:30 UTC +00:00], ["desc", "In this hands-on screencast, from scratch, we will use test-driven development to build a jQuery plugin. Along the way, we'll take advantage of Grunt, QUnit, and GitHub to build, test, and distribute our plugin, respectively. If the idea of testing in JavaScript is still foreign to you, you won't find a better introduction!"], ["difficulty", "Hard"], ["estimated_time", 90], ["image", "tutorials/techniques-for-test-driving-plugins1.jpg"], ["ispublished", 1], ["releasemonth", "May"], ["title", "Techniques For Test-Driving jQuery Plugins"], ["updated_at", Mon, 11 Mar 2013 10:00:30 UTC +00:00], ["user_id", 9]]
+  [1m[36m (139.7ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36mSQL (0.5ms)[0m  [1mINSERT INTO "groupings" ("created_at", "group_id", "tutorial_id", "updated_at") VALUES (?, ?, ?, ?)[0m  [["created_at", Mon, 11 Mar 2013 10:00:30 UTC +00:00], ["group_id", 5], ["tutorial_id", 9], ["updated_at", Mon, 11 Mar 2013 10:00:30 UTC +00:00]]
+  [1m[35m (106.3ms)[0m  commit transaction
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.5ms)[0m  INSERT INTO "groupings" ("created_at", "group_id", "tutorial_id", "updated_at") VALUES (?, ?, ?, ?)  [["created_at", Mon, 11 Mar 2013 10:00:30 UTC +00:00], ["group_id", 3], ["tutorial_id", 9], ["updated_at", Mon, 11 Mar 2013 10:00:30 UTC +00:00]]
+  [1m[36m (114.7ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36mSQL (0.6ms)[0m  [1mINSERT INTO "tutorials" ("author", "created_at", "desc", "difficulty", "estimated_time", "image", "ispublished", "releasemonth", "title", "updated_at", "user_id") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)[0m  [["author", "Flavie Hodkiewicz"], ["created_at", Mon, 11 Mar 2013 10:00:30 UTC +00:00], ["desc", "Lately, I've been getting this question a lot: how did you get your terminal to look the way it does? If you've noticed my terminal and are curious about how I set it up, this is the tutorial for you! Of course, what you learn here will be enough to get you started on creating your own custom command prompt, as well!"], ["difficulty", "Medium"], ["estimated_time", 60], ["image", "tutorials/how-to-customize-your-command-prompt.png"], ["ispublished", 1], ["releasemonth", "May"], ["title", "How To Customize Your Terminal"], ["updated_at", Mon, 11 Mar 2013 10:00:30 UTC +00:00], ["user_id", 3]]
+  [1m[35m (129.9ms)[0m  commit transaction
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.5ms)[0m  INSERT INTO "groupings" ("created_at", "group_id", "tutorial_id", "updated_at") VALUES (?, ?, ?, ?)  [["created_at", Mon, 11 Mar 2013 10:00:30 UTC +00:00], ["group_id", 1], ["tutorial_id", 10], ["updated_at", Mon, 11 Mar 2013 10:00:30 UTC +00:00]]
+  [1m[36m (131.5ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36mSQL (0.5ms)[0m  [1mINSERT INTO "groupings" ("created_at", "group_id", "tutorial_id", "updated_at") VALUES (?, ?, ?, ?)[0m  [["created_at", Mon, 11 Mar 2013 10:00:30 UTC +00:00], ["group_id", 3], ["tutorial_id", 10], ["updated_at", Mon, 11 Mar 2013 10:00:30 UTC +00:00]]
+  [1m[35m (131.5ms)[0m  commit transaction
+Creating scope :page. Overwriting existing method Blog.page.
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.8ms)[0m  INSERT INTO "blogs" ("author", "content", "created_at", "image", "ispublished", "releasemonth", "title", "updated_at", "user_id") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)  [["author", "Selina Leannon"], ["content", "This week's post is brought to us by Philip Zeplin. Philip teaches photo retouching and manipulation here at SmartCoach Premium and is also a successful author on the Envato marketplaces. Being a recent graduate himself, Philip weighs in on one of the most common questions facing students interested in design: to pursue college or jump into work?\n\t\t\t \tSo you are a young new fresh student, perhaps straight out of high school. You have decided you want to become a designer. Congratulations! You have chosen a fantastic field. But what you should do? Should you go straight to working, apply for an internship, or study?\n\t\t\t \t\tWhen asking that question, you'll get a lot of very different answers, and in the end, the frustratingly true answer is probably !it depends."], ["created_at", Mon, 11 Mar 2013 10:00:30 UTC +00:00], ["image", "blogs/2757851927_838e959e76_z.jpg"], ["ispublished", 1], ["releasemonth", "January"], ["title", "The Design Student Dilemma: Clients or Classes?"], ["updated_at", Mon, 11 Mar 2013 10:00:30 UTC +00:00], ["user_id", 1]]
+  [1m[36m (115.2ms)[0m  [1mcommit transaction[0m
+Creating scope :page. Overwriting existing method Tagging.page.
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36mSQL (0.7ms)[0m  [1mINSERT INTO "taggings" ("blog_id", "created_at", "tag_id", "updated_at") VALUES (?, ?, ?, ?)[0m  [["blog_id", 1], ["created_at", Mon, 11 Mar 2013 10:00:31 UTC +00:00], ["tag_id", 1], ["updated_at", Mon, 11 Mar 2013 10:00:31 UTC +00:00]]
+  [1m[35m (133.8ms)[0m  commit transaction
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.6ms)[0m  INSERT INTO "taggings" ("blog_id", "created_at", "tag_id", "updated_at") VALUES (?, ?, ?, ?)  [["blog_id", 1], ["created_at", Mon, 11 Mar 2013 10:00:31 UTC +00:00], ["tag_id", 3], ["updated_at", Mon, 11 Mar 2013 10:00:31 UTC +00:00]]
+  [1m[36m (121.7ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36mSQL (0.6ms)[0m  [1mINSERT INTO "blogs" ("author", "content", "created_at", "image", "ispublished", "releasemonth", "title", "updated_at", "user_id") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)[0m  [["author", "Astrid Goyette MD"], ["content", "What may not be immediately obvious is that, in addition to creating screencasts for SmartCoach, I'm also a huge fan of the opposite: watching them! When I was first getting started in this industry, they provided the connection that I was missing. Books are a necessity, but we still often need the human aspect of learning. And that's what we've tried to achieve on this site: be the person sitting next to you, explaining confusing stuff.\n\t\t\t \tAfter all those years, I've certainly come across (and experimented with, myself) screencasts that unfortunately fall short. Luckily, these short-comings are fixable!"], ["created_at", Mon, 11 Mar 2013 10:00:31 UTC +00:00], ["image", "blogs/screencasting-techniques.jpg"], ["ispublished", 0], ["releasemonth", "January"], ["title", "Common Screencasting 'Techniques' That Drive Me Nuts"], ["updated_at", Mon, 11 Mar 2013 10:00:31 UTC +00:00], ["user_id", 3]]
+  [1m[35m (129.7ms)[0m  commit transaction
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.5ms)[0m  INSERT INTO "taggings" ("blog_id", "created_at", "tag_id", "updated_at") VALUES (?, ?, ?, ?)  [["blog_id", 2], ["created_at", Mon, 11 Mar 2013 10:00:31 UTC +00:00], ["tag_id", 1], ["updated_at", Mon, 11 Mar 2013 10:00:31 UTC +00:00]]
+  [1m[36m (114.6ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36mSQL (0.5ms)[0m  [1mINSERT INTO "taggings" ("blog_id", "created_at", "tag_id", "updated_at") VALUES (?, ?, ?, ?)[0m  [["blog_id", 2], ["created_at", Mon, 11 Mar 2013 10:00:31 UTC +00:00], ["tag_id", 5], ["updated_at", Mon, 11 Mar 2013 10:00:31 UTC +00:00]]
+  [1m[35m (114.8ms)[0m  commit transaction
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.6ms)[0m  INSERT INTO "blogs" ("author", "content", "created_at", "image", "ispublished", "releasemonth", "title", "updated_at", "user_id") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)  [["author", "Amani Schowalter"], ["content", "For those of us in the creative industry, almost anything and everything we come across and see, hear, taste and feel can be used as a source of inspiration for our work.\n\t\t\t \tBut there are also times when we go blank and have a creative block. For those moments, there are some nifty little iPhone apps which can help in getting those creative juices flowing again, so here are five which I think are both fun and worth looking at:"], ["created_at", Mon, 11 Mar 2013 10:00:31 UTC +00:00], ["image", "blogs/photodune-2074124-girl-with-mobile-smart-phone-m.jpg"], ["ispublished", 1], ["releasemonth", "January"], ["title", "5 Fun iPhone Apps to help get your Creative Juices Flowing"], ["updated_at", Mon, 11 Mar 2013 10:00:31 UTC +00:00], ["user_id", 5]]
+  [1m[36m (121.9ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36mSQL (0.5ms)[0m  [1mINSERT INTO "taggings" ("blog_id", "created_at", "tag_id", "updated_at") VALUES (?, ?, ?, ?)[0m  [["blog_id", 3], ["created_at", Mon, 11 Mar 2013 10:00:31 UTC +00:00], ["tag_id", 5], ["updated_at", Mon, 11 Mar 2013 10:00:31 UTC +00:00]]
+  [1m[35m (106.4ms)[0m  commit transaction
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.5ms)[0m  INSERT INTO "taggings" ("blog_id", "created_at", "tag_id", "updated_at") VALUES (?, ?, ?, ?)  [["blog_id", 3], ["created_at", Mon, 11 Mar 2013 10:00:31 UTC +00:00], ["tag_id", 4], ["updated_at", Mon, 11 Mar 2013 10:00:31 UTC +00:00]]
+  [1m[36m (108.1ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36mSQL (0.6ms)[0m  [1mINSERT INTO "blogs" ("author", "content", "created_at", "image", "ispublished", "releasemonth", "title", "updated_at", "user_id") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)[0m  [["author", "Della Rau"], ["content", "Keeping the creative juices flowing, embracing change and increasing our skills are all challenges we face as designers. Sometimes we need a different source of inspiration that lets us know to color outside the lines, cause a scene, make waves and get carried away every now and then.\n\t\t\t \tI have a painting in my office with those statements that inspire me when I need it most. It could be two in the morning and I've hit a creative road block, or a new opportunity landed in my inbox and I'm just not sure how to move forward. A look at these statements is usually enough to inspire me to overcome the many challenges I face every day and nurture the endless possibilities that may come up."], ["created_at", Mon, 11 Mar 2013 10:00:32 UTC +00:00], ["image", "blogs/6891240539_564ffa808c_z.jpg"], ["ispublished", 1], ["releasemonth", "January"], ["title", "Mottos to Design By"], ["updated_at", Mon, 11 Mar 2013 10:00:32 UTC +00:00], ["user_id", 1]]
+  [1m[35m (130.3ms)[0m  commit transaction
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.5ms)[0m  INSERT INTO "taggings" ("blog_id", "created_at", "tag_id", "updated_at") VALUES (?, ?, ?, ?)  [["blog_id", 4], ["created_at", Mon, 11 Mar 2013 10:00:32 UTC +00:00], ["tag_id", 5], ["updated_at", Mon, 11 Mar 2013 10:00:32 UTC +00:00]]
+  [1m[36m (114.6ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36mSQL (0.5ms)[0m  [1mINSERT INTO "taggings" ("blog_id", "created_at", "tag_id", "updated_at") VALUES (?, ?, ?, ?)[0m  [["blog_id", 4], ["created_at", Mon, 11 Mar 2013 10:00:32 UTC +00:00], ["tag_id", 4], ["updated_at", Mon, 11 Mar 2013 10:00:32 UTC +00:00]]
+  [1m[35m (131.5ms)[0m  commit transaction
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.6ms)[0m  INSERT INTO "blogs" ("author", "content", "created_at", "image", "ispublished", "releasemonth", "title", "updated_at", "user_id") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)  [["author", "Ignacio Littel III"], ["content", "As the manager of Rockable Press, I constantly receive book proposals from aspiring authors around the world, and if we can't take their book proposal on-board, I always encourage them to consider the option of self-publishing the book themselves.\n\t\t\t \tI'm a huge fan of self-publishing, and though this may seem strange coming from someone who runs the publishing arm of a company, I think there's a lot to be said for it."], ["created_at", Mon, 11 Mar 2013 10:00:32 UTC +00:00], ["image", "blogs/2549674296_25f954288f_z.jpeg"], ["ispublished", 1], ["releasemonth", "January"], ["title", "The Pros and Cons of Self-Publishing"], ["updated_at", Mon, 11 Mar 2013 10:00:32 UTC +00:00], ["user_id", 3]]
+  [1m[36m (121.8ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36mSQL (0.5ms)[0m  [1mINSERT INTO "taggings" ("blog_id", "created_at", "tag_id", "updated_at") VALUES (?, ?, ?, ?)[0m  [["blog_id", 5], ["created_at", Mon, 11 Mar 2013 10:00:32 UTC +00:00], ["tag_id", 5], ["updated_at", Mon, 11 Mar 2013 10:00:32 UTC +00:00]]
+  [1m[35m (106.4ms)[0m  commit transaction
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.5ms)[0m  INSERT INTO "taggings" ("blog_id", "created_at", "tag_id", "updated_at") VALUES (?, ?, ?, ?)  [["blog_id", 5], ["created_at", Mon, 11 Mar 2013 10:00:32 UTC +00:00], ["tag_id", 4], ["updated_at", Mon, 11 Mar 2013 10:00:32 UTC +00:00]]
+  [1m[36m (114.7ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36mSQL (0.6ms)[0m  [1mINSERT INTO "blogs" ("author", "content", "created_at", "image", "ispublished", "releasemonth", "title", "updated_at", "user_id") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)[0m  [["author", "Martin Tillman"], ["content", "We are looking for a passionate web designer to work with a team of instructors (you'll build your own team) and lead them in producing a handful of awesome web design video courses each month."], ["created_at", Mon, 11 Mar 2013 10:00:32 UTC +00:00], ["image", "blogs/3713625765_335b6c5af0_z.jpeg"], ["ispublished", 1], ["releasemonth", "January"], ["title", "Job Opening: We're Looking for a Web Design Producer"], ["updated_at", Mon, 11 Mar 2013 10:00:32 UTC +00:00], ["user_id", 4]]
+  [1m[35m (131.9ms)[0m  commit transaction
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.5ms)[0m  INSERT INTO "taggings" ("blog_id", "created_at", "tag_id", "updated_at") VALUES (?, ?, ?, ?)  [["blog_id", 6], ["created_at", Mon, 11 Mar 2013 10:00:32 UTC +00:00], ["tag_id", 5], ["updated_at", Mon, 11 Mar 2013 10:00:32 UTC +00:00]]
+  [1m[36m (114.7ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36mSQL (0.5ms)[0m  [1mINSERT INTO "taggings" ("blog_id", "created_at", "tag_id", "updated_at") VALUES (?, ?, ?, ?)[0m  [["blog_id", 6], ["created_at", Mon, 11 Mar 2013 10:00:33 UTC +00:00], ["tag_id", 4], ["updated_at", Mon, 11 Mar 2013 10:00:33 UTC +00:00]]
+  [1m[35m (114.7ms)[0m  commit transaction
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.6ms)[0m  INSERT INTO "blogs" ("author", "content", "created_at", "image", "ispublished", "releasemonth", "title", "updated_at", "user_id") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)  [["author", "Ernestina Schmitt"], ["content", "Practice does, indeed, make perfect. At the end of a lesson here on SmartCoach Premium, instructors frequently will encourage you to practice, try out what they just demonstrated, do something, make something! Those aren't just platitudes: you really do have to do it. Any skill, regardless of the education and knowledge received, takes hands-on execution and experimentation. Passively watching even the best course video will only take you so far. Just like watching a cooking show on television won't necessarily make you a professional chef. It takes practice. That's why schools assign homework and have workshops and labs."], ["created_at", Mon, 11 Mar 2013 10:00:33 UTC +00:00], ["image", "blogs/3414888284_64a3ae6650_z.jpg"], ["ispublished", 1], ["releasemonth", "January"], ["title", "Member Workshop: What Are You Learning?"], ["updated_at", Mon, 11 Mar 2013 10:00:33 UTC +00:00], ["user_id", 8]]
+  [1m[36m (121.8ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36mSQL (0.5ms)[0m  [1mINSERT INTO "taggings" ("blog_id", "created_at", "tag_id", "updated_at") VALUES (?, ?, ?, ?)[0m  [["blog_id", 7], ["created_at", Mon, 11 Mar 2013 10:00:33 UTC +00:00], ["tag_id", 5], ["updated_at", Mon, 11 Mar 2013 10:00:33 UTC +00:00]]
+  [1m[35m (106.3ms)[0m  commit transaction
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.5ms)[0m  INSERT INTO "taggings" ("blog_id", "created_at", "tag_id", "updated_at") VALUES (?, ?, ?, ?)  [["blog_id", 7], ["created_at", Mon, 11 Mar 2013 10:00:33 UTC +00:00], ["tag_id", 4], ["updated_at", Mon, 11 Mar 2013 10:00:33 UTC +00:00]]
+  [1m[36m (114.8ms)[0m  [1mcommit transaction[0m
+Connecting to database specified by database.yml
+Creating scope :page. Overwriting existing method AdminUser.page.
+Creating scope :page. Overwriting existing method User.page.
+
+
+Started GET "/" for 127.0.0.1 at 2013-03-11 15:31:01 +0530
+Processing by ScreensController#home as HTML
+  Rendered screens/home.html.erb within layouts/application (76.4ms)
+Compiled authentication.css  (4ms)  (pid 16053)
+Compiled blog.css  (36ms)  (pid 16053)
+Compiled bootstrap_and_overrides.css  (9048ms)  (pid 16053)
+Compiled courses.css  (41ms)  (pid 16053)
+Compiled custom.css  (4095ms)  (pid 16053)
+Compiled faq.css  (25ms)  (pid 16053)
+Compiled groups.css  (136ms)  (pid 16053)
+Compiled home.css  (10ms)  (pid 16053)
+Compiled o_classes.css  (4ms)  (pid 16053)
+Compiled privacy.css  (9ms)  (pid 16053)
+Compiled screens.css  (8ms)  (pid 16053)
+Compiled sessions.css  (4ms)  (pid 16053)
+Compiled tags.css  (4ms)  (pid 16053)
+Compiled terms.css  (9ms)  (pid 16053)
+Compiled topics.css  (4ms)  (pid 16053)
+Compiled tutorials.css  (3ms)  (pid 16053)
+Compiled under_constructions.css  (4ms)  (pid 16053)
+Compiled users.css  (15ms)  (pid 16053)
+Compiled application.css  (14890ms)  (pid 16053)
+Compiled jquery.js  (3ms)  (pid 16053)
+Compiled jquery_ujs.js  (0ms)  (pid 16053)
+Compiled bootstrap-transition.js  (0ms)  (pid 16053)
+Compiled bootstrap-affix.js  (0ms)  (pid 16053)
+Compiled bootstrap-alert.js  (0ms)  (pid 16053)
+Compiled bootstrap-button.js  (0ms)  (pid 16053)
+Compiled bootstrap-carousel.js  (0ms)  (pid 16053)
+Compiled bootstrap-collapse.js  (0ms)  (pid 16053)
+Compiled bootstrap-dropdown.js  (0ms)  (pid 16053)
+Compiled bootstrap-modal.js  (0ms)  (pid 16053)
+Compiled bootstrap-scrollspy.js  (0ms)  (pid 16053)
+Compiled bootstrap-tab.js  (0ms)  (pid 16053)
+Compiled bootstrap-tooltip.js  (0ms)  (pid 16053)
+Compiled bootstrap-popover.js  (0ms)  (pid 16053)
+Compiled bootstrap-typeahead.js  (0ms)  (pid 16053)
+Compiled bootstrap.js  (978ms)  (pid 16053)
+Compiled authentication.js  (286ms)  (pid 16053)
+Compiled home.js  (279ms)  (pid 16053)
+Compiled users.js  (279ms)  (pid 16053)
+Compiled jquery.purr.js  (0ms)  (pid 16053)
+Compiled best_in_place.js  (1ms)  (pid 16053)
+Compiled application.js  (2635ms)  (pid 16053)
+  Rendered layouts/_shim.html.erb (0.7ms)
+  Rendered layouts/_footer.html.erb (2.2ms)
+Completed 200 OK in 19144ms (Views: 19142.3ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/" for 127.0.0.1 at 2013-03-11 15:31:42 +0530
+Processing by ScreensController#home as HTML
+  Rendered screens/home.html.erb within layouts/application (4.2ms)
+  Rendered layouts/_shim.html.erb (0.1ms)
+  Rendered layouts/_footer.html.erb (1.0ms)
+Completed 200 OK in 81ms (Views: 78.9ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/courses" for 127.0.0.1 at 2013-03-11 15:31:45 +0530
+Creating scope :page. Overwriting existing method Course.page.
+Processing by CoursesController#index as HTML
+Creating scope :page. Overwriting existing method Topic.page.
+  [1m[36m (0.3ms)[0m  [1mSELECT COUNT(*) FROM "courses" WHERE "courses"."ispublished" = 1[0m
+  [1m[35mCACHE (0.0ms)[0m  SELECT COUNT(*) FROM "courses" WHERE "courses"."ispublished" = 1
+  [1m[36mCourse Load (0.6ms)[0m  [1mSELECT "courses".* FROM "courses" WHERE "courses"."ispublished" = 1 ORDER BY courses.created_at DESC LIMIT 5 OFFSET 0[0m
+Creating scope :page. Overwriting existing method Tag.page.
+  [1m[35mUser Load (0.4ms)[0m  SELECT "users".* FROM "users" WHERE "users"."id" = 5 LIMIT 1
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT "users".* FROM "users" WHERE "users"."id" = 5 LIMIT 1[0m
+Creating scope :page. Overwriting existing method Relationship.page.
+  [1m[35mTopic Load (0.3ms)[0m  SELECT "topics".* FROM "topics" INNER JOIN "relationships" ON "topics"."id" = "relationships"."topic_id" WHERE "relationships"."course_id" = 10
+  [1m[36mUser Load (0.5ms)[0m  [1mSELECT "users".* FROM "users" WHERE "users"."id" = 3 LIMIT 1[0m
+  [1m[35mCACHE (0.0ms)[0m  SELECT "users".* FROM "users" WHERE "users"."id" = 3 LIMIT 1
+  [1m[36mTopic Load (0.4ms)[0m  [1mSELECT "topics".* FROM "topics" INNER JOIN "relationships" ON "topics"."id" = "relationships"."topic_id" WHERE "relationships"."course_id" = 9[0m
+  [1m[35mUser Load (0.4ms)[0m  SELECT "users".* FROM "users" WHERE "users"."id" = 1 LIMIT 1
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT "users".* FROM "users" WHERE "users"."id" = 1 LIMIT 1[0m
+  [1m[35mTopic Load (0.4ms)[0m  SELECT "topics".* FROM "topics" INNER JOIN "relationships" ON "topics"."id" = "relationships"."topic_id" WHERE "relationships"."course_id" = 7
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT "users".* FROM "users" WHERE "users"."id" = 1 LIMIT 1[0m
+  [1m[35mCACHE (0.0ms)[0m  SELECT "users".* FROM "users" WHERE "users"."id" = 1 LIMIT 1
+  [1m[36mTopic Load (0.4ms)[0m  [1mSELECT "topics".* FROM "topics" INNER JOIN "relationships" ON "topics"."id" = "relationships"."topic_id" WHERE "relationships"."course_id" = 6[0m
+  [1m[35mCACHE (0.0ms)[0m  SELECT "users".* FROM "users" WHERE "users"."id" = 1 LIMIT 1
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT "users".* FROM "users" WHERE "users"."id" = 1 LIMIT 1[0m
+  [1m[35mTopic Load (0.4ms)[0m  SELECT "topics".* FROM "topics" INNER JOIN "relationships" ON "topics"."id" = "relationships"."topic_id" WHERE "relationships"."course_id" = 4
+  Rendered courses/_course.html.erb (602.7ms)
+  [1m[36m (0.2ms)[0m  [1mSELECT COUNT(*) FROM "topics" [0m
+  [1m[35mCourse Load (0.4ms)[0m  SELECT "courses".* FROM "courses" WHERE "courses"."ispublished" = 1 ORDER BY courses.created_at DESC
+  [1m[36mTopic Load (0.4ms)[0m  [1mSELECT "topics".* FROM "topics" ORDER BY name[0m
+  [1m[35m (0.3ms)[0m  SELECT COUNT(*) FROM "courses" INNER JOIN "relationships" ON "courses"."id" = "relationships"."course_id" WHERE "relationships"."topic_id" = 4 AND "courses"."ispublished" = 1
+  [1m[36m (0.3ms)[0m  [1mSELECT COUNT(*) FROM "courses" INNER JOIN "relationships" ON "courses"."id" = "relationships"."course_id" WHERE "relationships"."topic_id" = 6 AND "courses"."ispublished" = 1[0m
+  [1m[35m (0.3ms)[0m  SELECT COUNT(*) FROM "courses" INNER JOIN "relationships" ON "courses"."id" = "relationships"."course_id" WHERE "relationships"."topic_id" = 5 AND "courses"."ispublished" = 1
+  [1m[36m (0.3ms)[0m  [1mSELECT COUNT(*) FROM "courses" INNER JOIN "relationships" ON "courses"."id" = "relationships"."course_id" WHERE "relationships"."topic_id" = 3 AND "courses"."ispublished" = 1[0m
+  [1m[35m (0.3ms)[0m  SELECT COUNT(*) FROM "courses" INNER JOIN "relationships" ON "courses"."id" = "relationships"."course_id" WHERE "relationships"."topic_id" = 2 AND "courses"."ispublished" = 1
+  [1m[36m (0.3ms)[0m  [1mSELECT COUNT(*) FROM "courses" INNER JOIN "relationships" ON "courses"."id" = "relationships"."course_id" WHERE "relationships"."topic_id" = 1 AND "courses"."ispublished" = 1[0m
+  [1m[35mCourse Load (0.4ms)[0m  SELECT "courses".* FROM "courses" WHERE "courses"."ispublished" = 0 ORDER BY courses.created_at DESC
+  Rendered courses/index.html.erb within layouts/application (1114.8ms)
+  Rendered layouts/_shim.html.erb (0.1ms)
+  Rendered layouts/_header.html.erb (4.2ms)
+  Rendered layouts/_footer.html.erb (1.1ms)
+Completed 200 OK in 1341ms (Views: 1184.8ms | ActiveRecord: 11.2ms)
+
+
+Started GET "/users/sign_in" for 127.0.0.1 at 2013-03-11 15:31:49 +0530
+Processing by Devise::SessionsController#new as HTML
+  Rendered devise/shared/_links.html.erb (3.5ms)
+  Rendered devise/sessions/new.html.erb within layouts/application (981.5ms)
+  Rendered layouts/_shim.html.erb (0.1ms)
+  Rendered layouts/_header.html.erb (3.1ms)
+  Rendered layouts/_footer.html.erb (1.0ms)
+Completed 200 OK in 1161ms (Views: 1157.2ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/auth/facebook/" for 127.0.0.1 at 2013-03-11 15:31:53 +0530
+
+
+Started GET "/auth/facebook/callback?state=2b2d7b3947198e5444ccd7fee26a98d6bb63a31c7ba89493&code=AQDV-92AQlGz3RPS0Sf2qjtInbvfJmoip-kejU_9s3j2li2_cAjNkfk1LhXFeoM9OxLRBbpHFRI4y75KHdoAEL9qiDvxhh9vofVn3R6xFcU0m4Chl5wmOtBS_9R13j0BtNgel0lXxchjxA_-jKBob8EiDYrTl5P6z7NGuoWkr_NNdf2MZcayPp6Zc11x3GyXHa0w63UvjqEsWTBL41W9wtrS" for 127.0.0.1 at 2013-03-11 15:32:08 +0530
+Creating scope :page. Overwriting existing method Authentication.page.
+Processing by AuthenticationController#create as HTML
+  Parameters: {"state"=>"2b2d7b3947198e5444ccd7fee26a98d6bb63a31c7ba89493", "code"=>"AQDV-92AQlGz3RPS0Sf2qjtInbvfJmoip-kejU_9s3j2li2_cAjNkfk1LhXFeoM9OxLRBbpHFRI4y75KHdoAEL9qiDvxhh9vofVn3R6xFcU0m4Chl5wmOtBS_9R13j0BtNgel0lXxchjxA_-jKBob8EiDYrTl5P6z7NGuoWkr_NNdf2MZcayPp6Zc11x3GyXHa0w63UvjqEsWTBL41W9wtrS", "provider"=>"facebook"}
+  [1m[36mAuthentication Load (0.2ms)[0m  [1mSELECT "authentications".* FROM "authentications" WHERE "authentications"."provider" = 'facebook' AND "authentications"."uid" = '1237754790' LIMIT 1[0m
+  [1m[35mUser Load (0.3ms)[0m  SELECT "users".* FROM "users" WHERE "users"."email" = 'samuels410@gmail.com' LIMIT 1
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (88.0ms)[0m  INSERT INTO "users" ("created_at", "current_sign_in_at", "current_sign_in_ip", "email", "encrypted_password", "image", "last_sign_in_at", "last_sign_in_ip", "name", "phone", "provider", "remember_created_at", "reset_password_sent_at", "reset_password_token", "sign_in_count", "sub_plan", "updated_at", "user_desc", "user_type", "username") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)  [["created_at", Mon, 11 Mar 2013 10:02:12 UTC +00:00], ["current_sign_in_at", nil], ["current_sign_in_ip", nil], ["email", "samuels410@gmail.com"], ["encrypted_password", ""], ["image", "http://graph.facebook.com/1237754790/picture?type=square"], ["last_sign_in_at", nil], ["last_sign_in_ip", nil], ["name", "Samuel Santhosh"], ["phone", nil], ["provider", "facebook"], ["remember_created_at", nil], ["reset_password_sent_at", nil], ["reset_password_token", nil], ["sign_in_count", 0], ["sub_plan", nil], ["updated_at", Mon, 11 Mar 2013 10:02:12 UTC +00:00], ["user_desc", nil], ["user_type", nil], ["username", nil]]
+  [1m[36mSQL (0.7ms)[0m  [1mINSERT INTO "authentications" ("created_at", "provider", "token", "uid", "updated_at", "user_id") VALUES (?, ?, ?, ?, ?, ?)[0m  [["created_at", Mon, 11 Mar 2013 10:02:12 UTC +00:00], ["provider", "facebook"], ["token", "AAAIVHN5og4oBAIt8a8Atc8RhpefPYF8J8oASARurWhGUX3DY901ZBvIRc1qa93jB1SI27KwRyfSVxKszjkj2P9NagdKskSAEPr7LX7QZDZD"], ["uid", "1237754790"], ["updated_at", Mon, 11 Mar 2013 10:02:12 UTC +00:00], ["user_id", 13]]
+  [1m[35m (132.2ms)[0m  commit transaction
+Completed 500 Internal Server Error in 263ms
+
+NameError - uninitialized constant AuthenticationController::CASHelper:
+  (gem) activesupport-3.2.12/lib/active_support/dependencies.rb:520:in `load_missing_constant'
+  (gem) activesupport-3.2.12/lib/active_support/dependencies.rb:192:in `block in const_missing'
+  (gem) activesupport-3.2.12/lib/active_support/dependencies.rb:190:in `const_missing'
+  app/controllers/authentication_controller.rb:46:in `cas_sign_in'
+  app/controllers/authentication_controller.rb:40:in `login_and_redirect_user'
+  app/controllers/authentication_controller.rb:27:in `create'
+  (gem) actionpack-3.2.12/lib/action_controller/metal/implicit_render.rb:4:in `send_action'
+  (gem) actionpack-3.2.12/lib/abstract_controller/base.rb:167:in `process_action'
+  (gem) actionpack-3.2.12/lib/action_controller/metal/rendering.rb:10:in `process_action'
+  (gem) actionpack-3.2.12/lib/abstract_controller/callbacks.rb:18:in `block in process_action'
+  (gem) activesupport-3.2.12/lib/active_support/callbacks.rb:425:in `_run__3065907391784869924__process_action__3281415811545269503__callbacks'
+  (gem) activesupport-3.2.12/lib/active_support/callbacks.rb:405:in `__run_callback'
+  (gem) activesupport-3.2.12/lib/active_support/callbacks.rb:385:in `_run_process_action_callbacks'
+  (gem) activesupport-3.2.12/lib/active_support/callbacks.rb:81:in `run_callbacks'
+  (gem) actionpack-3.2.12/lib/abstract_controller/callbacks.rb:17:in `process_action'
+  (gem) actionpack-3.2.12/lib/action_controller/metal/rescue.rb:29:in `process_action'
+  (gem) actionpack-3.2.12/lib/action_controller/metal/instrumentation.rb:30:in `block in process_action'
+  (gem) activesupport-3.2.12/lib/active_support/notifications.rb:123:in `block in instrument'
+  (gem) activesupport-3.2.12/lib/active_support/notifications/instrumenter.rb:20:in `instrument'
+  (gem) activesupport-3.2.12/lib/active_support/notifications.rb:123:in `instrument'
+  (gem) actionpack-3.2.12/lib/action_controller/metal/instrumentation.rb:29:in `process_action'
+  (gem) actionpack-3.2.12/lib/action_controller/metal/params_wrapper.rb:207:in `process_action'
+  (gem) activerecord-3.2.12/lib/active_record/railties/controller_runtime.rb:18:in `process_action'
+  (gem) actionpack-3.2.12/lib/abstract_controller/base.rb:121:in `process'
+  (gem) actionpack-3.2.12/lib/abstract_controller/rendering.rb:45:in `process'
+  (gem) actionpack-3.2.12/lib/action_controller/metal.rb:203:in `dispatch'
+  (gem) actionpack-3.2.12/lib/action_controller/metal/rack_delegation.rb:14:in `dispatch'
+  (gem) actionpack-3.2.12/lib/action_controller/metal.rb:246:in `block in action'
+  (gem) actionpack-3.2.12/lib/action_dispatch/routing/route_set.rb:73:in `dispatch'
+  (gem) actionpack-3.2.12/lib/action_dispatch/routing/route_set.rb:36:in `call'
+  (gem) journey-1.0.4/lib/journey/router.rb:68:in `block in call'
+  (gem) journey-1.0.4/lib/journey/router.rb:56:in `call'
+  (gem) actionpack-3.2.12/lib/action_dispatch/routing/route_set.rb:601:in `call'
+  (gem) omniauth-1.1.3/lib/omniauth/strategy.rb:177:in `call!'
+  (gem) omniauth-1.1.3/lib/omniauth/strategy.rb:157:in `call'
+  (gem) omniauth-1.1.3/lib/omniauth/strategy.rb:177:in `call!'
+  (gem) omniauth-1.1.3/lib/omniauth/strategy.rb:157:in `call'
+  (gem) omniauth-1.1.3/lib/omniauth/strategy.rb:394:in `call_app!'
+  (gem) omniauth-1.1.3/lib/omniauth/strategy.rb:356:in `callback_phase'
+  (gem) omniauth-oauth2-1.1.1/lib/omniauth/strategies/oauth2.rb:77:in `callback_phase'
+  (gem) omniauth-1.1.3/lib/omniauth/strategy.rb:219:in `callback_call'
+  (gem) omniauth-1.1.3/lib/omniauth/strategy.rb:175:in `call!'
+  (gem) omniauth-1.1.3/lib/omniauth/strategy.rb:157:in `call'
+  (gem) omniauth-1.1.3/lib/omniauth/builder.rb:48:in `call'
+  (gem) warden-1.2.1/lib/warden/manager.rb:35:in `block in call'
+  (gem) warden-1.2.1/lib/warden/manager.rb:34:in `call'
+  (gem) actionpack-3.2.12/lib/action_dispatch/middleware/best_standards_support.rb:17:in `call'
+  (gem) rack-1.4.5/lib/rack/etag.rb:23:in `call'
+  (gem) rack-1.4.5/lib/rack/conditionalget.rb:25:in `call'
+  (gem) actionpack-3.2.12/lib/action_dispatch/middleware/head.rb:14:in `call'
+  (gem) actionpack-3.2.12/lib/action_dispatch/middleware/params_parser.rb:21:in `call'
+  (gem) actionpack-3.2.12/lib/action_dispatch/middleware/flash.rb:242:in `call'
+  (gem) rack-1.4.5/lib/rack/session/abstract/id.rb:210:in `context'
+  (gem) rack-1.4.5/lib/rack/session/abstract/id.rb:205:in `call'
+  (gem) actionpack-3.2.12/lib/action_dispatch/middleware/cookies.rb:341:in `call'
+  (gem) activerecord-3.2.12/lib/active_record/query_cache.rb:64:in `call'
+  (gem) activerecord-3.2.12/lib/active_record/connection_adapters/abstract/connection_pool.rb:479:in `call'
+  (gem) actionpack-3.2.12/lib/action_dispatch/middleware/callbacks.rb:28:in `block in call'
+  (gem) activesupport-3.2.12/lib/active_support/callbacks.rb:405:in `_run__824177551038421383__call__255349468146951052__callbacks'
+  (gem) activesupport-3.2.12/lib/active_support/callbacks.rb:405:in `__run_callback'
+  (gem) activesupport-3.2.12/lib/active_support/callbacks.rb:385:in `_run_call_callbacks'
+  (gem) activesupport-3.2.12/lib/active_support/callbacks.rb:81:in `run_callbacks'
+  (gem) actionpack-3.2.12/lib/action_dispatch/middleware/callbacks.rb:27:in `call'
+  (gem) actionpack-3.2.12/lib/action_dispatch/middleware/reloader.rb:65:in `call'
+  (gem) actionpack-3.2.12/lib/action_dispatch/middleware/remote_ip.rb:31:in `call'
+  (gem) better_errors-0.7.0/lib/better_errors/middleware.rb:84:in `protected_app_call'
+  (gem) better_errors-0.7.0/lib/better_errors/middleware.rb:79:in `better_errors_call'
+  (gem) better_errors-0.7.0/lib/better_errors/middleware.rb:56:in `call'
+  (gem) actionpack-3.2.12/lib/action_dispatch/middleware/debug_exceptions.rb:16:in `call'
+  (gem) actionpack-3.2.12/lib/action_dispatch/middleware/show_exceptions.rb:56:in `call'
+  (gem) railties-3.2.12/lib/rails/rack/logger.rb:32:in `call_app'
+  (gem) railties-3.2.12/lib/rails/rack/logger.rb:16:in `block in call'
+  (gem) activesupport-3.2.12/lib/active_support/tagged_logging.rb:22:in `tagged'
+  (gem) railties-3.2.12/lib/rails/rack/logger.rb:16:in `call'
+  (gem) quiet_assets-1.0.2/lib/quiet_assets.rb:18:in `call_with_quiet_assets'
+  (gem) actionpack-3.2.12/lib/action_dispatch/middleware/request_id.rb:22:in `call'
+  (gem) rack-1.4.5/lib/rack/methodoverride.rb:21:in `call'
+  (gem) rack-1.4.5/lib/rack/runtime.rb:17:in `call'
+  (gem) activesupport-3.2.12/lib/active_support/cache/strategy/local_cache.rb:72:in `call'
+  (gem) rack-1.4.5/lib/rack/lock.rb:15:in `call'
+  (gem) actionpack-3.2.12/lib/action_dispatch/middleware/static.rb:62:in `call'
+  (gem) railties-3.2.12/lib/rails/engine.rb:479:in `call'
+  (gem) railties-3.2.12/lib/rails/application.rb:223:in `call'
+  (gem) rack-1.4.5/lib/rack/content_length.rb:14:in `call'
+  (gem) railties-3.2.12/lib/rails/rack/log_tailer.rb:17:in `call'
+  (gem) rack-1.4.5/lib/rack/handler/webrick.rb:59:in `service'
+  /home/sysadmin/.rvm/rubies/ruby-1.9.3-p374/lib/ruby/1.9.1/webrick/httpserver.rb:138:in `service'
+  /home/sysadmin/.rvm/rubies/ruby-1.9.3-p374/lib/ruby/1.9.1/webrick/httpserver.rb:94:in `run'
+  /home/sysadmin/.rvm/rubies/ruby-1.9.3-p374/lib/ruby/1.9.1/webrick/server.rb:191:in `block in start_thread'
+
+
+
+Started POST "/__better_errors/44659440/variables" for 127.0.0.1 at 2013-03-11 15:32:12 +0530
+Connecting to database specified by database.yml
+Creating scope :page. Overwriting existing method AdminUser.page.
+Creating scope :page. Overwriting existing method User.page.
+
+
+Started GET "/auth/facebook/callback?state=2b2d7b3947198e5444ccd7fee26a98d6bb63a31c7ba89493&code=AQDV-92AQlGz3RPS0Sf2qjtInbvfJmoip-kejU_9s3j2li2_cAjNkfk1LhXFeoM9OxLRBbpHFRI4y75KHdoAEL9qiDvxhh9vofVn3R6xFcU0m4Chl5wmOtBS_9R13j0BtNgel0lXxchjxA_-jKBob8EiDYrTl5P6z7NGuoWkr_NNdf2MZcayPp6Zc11x3GyXHa0w63UvjqEsWTBL41W9wtrS" for 127.0.0.1 at 2013-03-11 15:35:14 +0530
+
+OAuth2::Error - : 
+{"error":{"message":"This authorization code has been used.","type":"OAuthException","code":100}}:
+  (gem) oauth2-0.8.1/lib/oauth2/error.rb:21:in `initialize'
+  (gem) oauth2-0.8.1/lib/oauth2/client.rb:107:in `request'
+  (gem) oauth2-0.8.1/lib/oauth2/client.rb:131:in `get_token'
+  (gem) oauth2-0.8.1/lib/oauth2/strategy/auth_code.rb:29:in `get_token'
+  (gem) omniauth-oauth2-1.1.1/lib/omniauth/strategies/oauth2.rb:99:in `build_access_token'
+  (gem) omniauth-facebook-1.4.1/lib/omniauth/strategies/facebook.rb:73:in `block in build_access_token'
+  (gem) omniauth-facebook-1.4.1/lib/omniauth/strategies/facebook.rb:174:in `with_authorization_code!'
+  (gem) omniauth-facebook-1.4.1/lib/omniauth/strategies/facebook.rb:73:in `build_access_token'
+  (gem) omniauth-oauth2-1.1.1/lib/omniauth/strategies/oauth2.rb:74:in `callback_phase'
+  (gem) omniauth-1.1.3/lib/omniauth/strategy.rb:219:in `callback_call'
+  (gem) omniauth-1.1.3/lib/omniauth/strategy.rb:175:in `call!'
+  (gem) omniauth-1.1.3/lib/omniauth/strategy.rb:157:in `call'
+  (gem) omniauth-1.1.3/lib/omniauth/builder.rb:48:in `call'
+  (gem) warden-1.2.1/lib/warden/manager.rb:35:in `block in call'
+  (gem) warden-1.2.1/lib/warden/manager.rb:34:in `call'
+  (gem) actionpack-3.2.12/lib/action_dispatch/middleware/best_standards_support.rb:17:in `call'
+  (gem) rack-1.4.5/lib/rack/etag.rb:23:in `call'
+  (gem) rack-1.4.5/lib/rack/conditionalget.rb:25:in `call'
+  (gem) actionpack-3.2.12/lib/action_dispatch/middleware/head.rb:14:in `call'
+  (gem) actionpack-3.2.12/lib/action_dispatch/middleware/params_parser.rb:21:in `call'
+  (gem) actionpack-3.2.12/lib/action_dispatch/middleware/flash.rb:242:in `call'
+  (gem) rack-1.4.5/lib/rack/session/abstract/id.rb:210:in `context'
+  (gem) rack-1.4.5/lib/rack/session/abstract/id.rb:205:in `call'
+  (gem) actionpack-3.2.12/lib/action_dispatch/middleware/cookies.rb:341:in `call'
+  (gem) activerecord-3.2.12/lib/active_record/query_cache.rb:64:in `call'
+  (gem) activerecord-3.2.12/lib/active_record/connection_adapters/abstract/connection_pool.rb:479:in `call'
+  (gem) actionpack-3.2.12/lib/action_dispatch/middleware/callbacks.rb:28:in `block in call'
+  (gem) activesupport-3.2.12/lib/active_support/callbacks.rb:405:in `_run__1048157063743230257__call__3707906112761028277__callbacks'
+  (gem) activesupport-3.2.12/lib/active_support/callbacks.rb:405:in `__run_callback'
+  (gem) activesupport-3.2.12/lib/active_support/callbacks.rb:385:in `_run_call_callbacks'
+  (gem) activesupport-3.2.12/lib/active_support/callbacks.rb:81:in `run_callbacks'
+  (gem) actionpack-3.2.12/lib/action_dispatch/middleware/callbacks.rb:27:in `call'
+  (gem) actionpack-3.2.12/lib/action_dispatch/middleware/reloader.rb:65:in `call'
+  (gem) actionpack-3.2.12/lib/action_dispatch/middleware/remote_ip.rb:31:in `call'
+  (gem) better_errors-0.7.0/lib/better_errors/middleware.rb:84:in `protected_app_call'
+  (gem) better_errors-0.7.0/lib/better_errors/middleware.rb:79:in `better_errors_call'
+  (gem) better_errors-0.7.0/lib/better_errors/middleware.rb:56:in `call'
+  (gem) actionpack-3.2.12/lib/action_dispatch/middleware/debug_exceptions.rb:16:in `call'
+  (gem) actionpack-3.2.12/lib/action_dispatch/middleware/show_exceptions.rb:56:in `call'
+  (gem) railties-3.2.12/lib/rails/rack/logger.rb:32:in `call_app'
+  (gem) railties-3.2.12/lib/rails/rack/logger.rb:16:in `block in call'
+  (gem) activesupport-3.2.12/lib/active_support/tagged_logging.rb:22:in `tagged'
+  (gem) railties-3.2.12/lib/rails/rack/logger.rb:16:in `call'
+  (gem) quiet_assets-1.0.2/lib/quiet_assets.rb:18:in `call_with_quiet_assets'
+  (gem) actionpack-3.2.12/lib/action_dispatch/middleware/request_id.rb:22:in `call'
+  (gem) rack-1.4.5/lib/rack/methodoverride.rb:21:in `call'
+  (gem) rack-1.4.5/lib/rack/runtime.rb:17:in `call'
+  (gem) activesupport-3.2.12/lib/active_support/cache/strategy/local_cache.rb:72:in `call'
+  (gem) rack-1.4.5/lib/rack/lock.rb:15:in `call'
+  (gem) actionpack-3.2.12/lib/action_dispatch/middleware/static.rb:62:in `call'
+  (gem) railties-3.2.12/lib/rails/engine.rb:479:in `call'
+  (gem) railties-3.2.12/lib/rails/application.rb:223:in `call'
+  (gem) rack-1.4.5/lib/rack/content_length.rb:14:in `call'
+  (gem) railties-3.2.12/lib/rails/rack/log_tailer.rb:17:in `call'
+  (gem) rack-1.4.5/lib/rack/handler/webrick.rb:59:in `service'
+  /home/sysadmin/.rvm/rubies/ruby-1.9.3-p374/lib/ruby/1.9.1/webrick/httpserver.rb:138:in `service'
+  /home/sysadmin/.rvm/rubies/ruby-1.9.3-p374/lib/ruby/1.9.1/webrick/httpserver.rb:94:in `run'
+  /home/sysadmin/.rvm/rubies/ruby-1.9.3-p374/lib/ruby/1.9.1/webrick/server.rb:191:in `block in start_thread'
+
+
+
+Started POST "/__better_errors/43314740/variables" for 127.0.0.1 at 2013-03-11 15:35:17 +0530
+
+
+Started GET "/auth/facebook/callback?state=2b2d7b3947198e5444ccd7fee26a98d6bb63a31c7ba89493&code=AQAAzsyPvwGb_ezzlUrWRTxYESOM8OCl4AxjxgW7WEytEraM3Dfkq_HXau-s0NwlsfNDYUdMbQMX13dSy4KjzEhXMCq2uXdY8EzLsxi26l9Zzy2xNfaFLSc3q6Jtci-VmDZSNCi2ug8yCr_R-OxC_RF2ki8t1R1qtPLVXY579Fmcx3XcIp48AebkYRk_rWJ5iGHUf75F0gUAIiTIhio1bAZ5" for 127.0.0.1 at 2013-03-11 15:35:22 +0530
+Creating scope :page. Overwriting existing method Authentication.page.
+Processing by AuthenticationController#create as HTML
+  Parameters: {"state"=>"2b2d7b3947198e5444ccd7fee26a98d6bb63a31c7ba89493", "code"=>"AQAAzsyPvwGb_ezzlUrWRTxYESOM8OCl4AxjxgW7WEytEraM3Dfkq_HXau-s0NwlsfNDYUdMbQMX13dSy4KjzEhXMCq2uXdY8EzLsxi26l9Zzy2xNfaFLSc3q6Jtci-VmDZSNCi2ug8yCr_R-OxC_RF2ki8t1R1qtPLVXY579Fmcx3XcIp48AebkYRk_rWJ5iGHUf75F0gUAIiTIhio1bAZ5", "provider"=>"facebook"}
+  [1m[36mAuthentication Load (0.4ms)[0m  [1mSELECT "authentications".* FROM "authentications" WHERE "authentications"."provider" = 'facebook' AND "authentications"."uid" = '1237754790' LIMIT 1[0m
+  [1m[35mUser Load (0.4ms)[0m  SELECT "users".* FROM "users" WHERE "users"."email" = 'samuels410@gmail.com' LIMIT 1
+Redirected to http://localhost:3000/
+Completed 302 Found in 85ms (ActiveRecord: 3.3ms)
+
+
+Started GET "/auth/facebook/callback?state=2b2d7b3947198e5444ccd7fee26a98d6bb63a31c7ba89493&code=AQCm_cTW117BLKs8XXoQDVi-l3SSkoecSy9jXs9PStY1J78-AUKnnkVeNMPf97PDoto9vMmk6i7-IZj59vAffcXqMvYN9lf3H2RTa32YmxaCurGLpX2I53GiUj2GMf7HWlPGTflozBAhxs01sp1J6p0s_IZLRoR0Phd5eDrn0-0YvVKL3HnpppA9yAOMP6kbhNRSSkooBOe_gjGYTISN9zjY" for 127.0.0.1 at 2013-03-11 15:35:26 +0530
+Processing by AuthenticationController#create as HTML
+  Parameters: {"state"=>"2b2d7b3947198e5444ccd7fee26a98d6bb63a31c7ba89493", "code"=>"AQCm_cTW117BLKs8XXoQDVi-l3SSkoecSy9jXs9PStY1J78-AUKnnkVeNMPf97PDoto9vMmk6i7-IZj59vAffcXqMvYN9lf3H2RTa32YmxaCurGLpX2I53GiUj2GMf7HWlPGTflozBAhxs01sp1J6p0s_IZLRoR0Phd5eDrn0-0YvVKL3HnpppA9yAOMP6kbhNRSSkooBOe_gjGYTISN9zjY", "provider"=>"facebook"}
+  [1m[36mAuthentication Load (0.4ms)[0m  [1mSELECT "authentications".* FROM "authentications" WHERE "authentications"."provider" = 'facebook' AND "authentications"."uid" = '1237754790' LIMIT 1[0m
+  [1m[35mUser Load (0.4ms)[0m  SELECT "users".* FROM "users" WHERE "users"."email" = 'samuels410@gmail.com' LIMIT 1
+Redirected to http://localhost:3000/
+Completed 302 Found in 7ms (ActiveRecord: 0.8ms)
+
+
+Started GET "/users/sign_in" for 127.0.0.1 at 2013-03-11 15:35:34 +0530
+Processing by Devise::SessionsController#new as HTML
+  Rendered devise/shared/_links.html.erb (3.6ms)
+  Rendered devise/sessions/new.html.erb within layouts/application (1222.8ms)
+  Rendered layouts/_shim.html.erb (0.6ms)
+  Rendered layouts/_header.html.erb (4.6ms)
+  Rendered layouts/_footer.html.erb (2.3ms)
+Completed 200 OK in 1812ms (Views: 1808.8ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/auth/facebook/" for 127.0.0.1 at 2013-03-11 15:35:41 +0530
+
+
+Started GET "/auth/facebook/callback?state=540b2b3cd16ce98ce01b91808e256c854e69a5ba58bac11d&code=AQDnJJiUW_-kbjDD39pW51BjEH1sphHaERIB67tuX65HbFZt7s6623cBiG_x1gpjNBnhnhv265pqK8J8PRyw_aWg7GSwq3mitn1SCDa_U6N3yvxb4kkyt_TPdKmPZZ9UVPIzIeZ43i9ZpTqTnGRIFbVBO7n7mUH11nYl9GC9yvkjXy612v0Pe7DnQdAvAyGoqxtsSwx77g0vznmSn7S3ybDl" for 127.0.0.1 at 2013-03-11 15:35:44 +0530
+Processing by AuthenticationController#create as HTML
+  Parameters: {"state"=>"540b2b3cd16ce98ce01b91808e256c854e69a5ba58bac11d", "code"=>"AQDnJJiUW_-kbjDD39pW51BjEH1sphHaERIB67tuX65HbFZt7s6623cBiG_x1gpjNBnhnhv265pqK8J8PRyw_aWg7GSwq3mitn1SCDa_U6N3yvxb4kkyt_TPdKmPZZ9UVPIzIeZ43i9ZpTqTnGRIFbVBO7n7mUH11nYl9GC9yvkjXy612v0Pe7DnQdAvAyGoqxtsSwx77g0vznmSn7S3ybDl", "provider"=>"facebook"}
+  [1m[36mAuthentication Load (0.3ms)[0m  [1mSELECT "authentications".* FROM "authentications" WHERE "authentications"."provider" = 'facebook' AND "authentications"."uid" = '1237754790' LIMIT 1[0m
+  [1m[35mUser Load (0.4ms)[0m  SELECT "users".* FROM "users" WHERE "users"."email" = 'samuels410@gmail.com' LIMIT 1
+Redirected to http://localhost:3000/
+Completed 302 Found in 7ms (ActiveRecord: 0.7ms)
+
+
+Started GET "/" for 127.0.0.1 at 2013-03-11 15:35:53 +0530
+Processing by ScreensController#home as HTML
+  Rendered screens/home.html.erb within layouts/application (5.2ms)
+  Rendered layouts/_shim.html.erb (0.1ms)
+  Rendered layouts/_footer.html.erb (1.2ms)
+Completed 200 OK in 185ms (Views: 182.2ms | ActiveRecord: 0.0ms)
