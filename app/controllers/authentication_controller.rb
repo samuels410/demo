@@ -18,7 +18,7 @@ class AuthenticationController < ApplicationController
         if user.save(:validate => false)
           flash[:notice] = "Account created and signed in successfully."
           #sign_in_and_redirect(:user, user)
-          login_and_redirect_user(user)
+         redirect_to root_url
         else
           flash[:error] = "Error while creating a user account. Please try again."
           redirect_to root_url
