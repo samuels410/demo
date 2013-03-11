@@ -17,8 +17,8 @@ class AuthenticationController < ApplicationController
         user.apply_omniauth(auth)
         if user.save(:validate => false)
           flash[:notice] = "Account created and signed in successfully."
-          #sign_in_and_redirect(:user, user)
-         redirect_to root_url
+          sign_in_and_redirect(:user, user)
+        
         else
           flash[:error] = "Error while creating a user account. Please try again."
           redirect_to root_url
