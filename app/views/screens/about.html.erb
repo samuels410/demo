@@ -24,7 +24,11 @@
                   
                   <li id="fat-menu" class="dropdown">
                   <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                    <%= gravatar_for_with_size current_user, "15x15" %> <%= current_user.name %>  <b class="caret"></b>
+                     <% if current_user.image == nil %>
+                    <%= gravatar_for_with_size current_user, "15x15" %>
+                    <% else  %>
+                    <%= image_tag(current_user.image,size: "23x26", alt: "")%> 
+            <% end  %> <%= current_user.name %>  <b class="caret"></b>
                   </a>
                   <ul class="dropdown-menu" id="droplinks">
                       <% if current_user.has_role? :admin %>
