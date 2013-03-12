@@ -4977,3 +4977,43 @@ Processing by ScreensController#home as HTML
   Rendered layouts/_shim.html.erb (0.1ms)
   Rendered layouts/_footer.html.erb (1.3ms)
 Completed 200 OK in 317ms (Views: 315.3ms | ActiveRecord: 0.0ms)
+Connecting to database specified by database.yml
+Creating scope :page. Overwriting existing method AdminUser.page.
+Creating scope :page. Overwriting existing method User.page.
+
+
+Started GET "/users/sign_in" for 127.0.0.1 at 2013-03-12 10:09:52 +0530
+Processing by Devise::SessionsController#new as HTML
+  Rendered devise/shared/_links.html.erb (6.0ms)
+  Rendered devise/sessions/new.html.erb within layouts/application (1405.8ms)
+  Rendered layouts/_shim.html.erb (0.6ms)
+  Rendered layouts/_header.html.erb (5.0ms)
+  Rendered layouts/_footer.html.erb (2.2ms)
+Completed 200 OK in 2152ms (Views: 2091.9ms | ActiveRecord: 2.1ms)
+
+
+Started GET "/auth/facebook/" for 127.0.0.1 at 2013-03-12 10:10:04 +0530
+
+
+Started GET "/auth/facebook/callback?state=7e3c1cc7e281905e8f0a071def6e689c1f99d0b7f6249c23&code=AQBNloHSCSEcA-V9LNFPfvBcqjfGYtVy_t_RuwV47nIKPWqFwr9eExO5uqqY5HVXmxLoDXNXpz030edeY9DVgc8W4buS9tvlnJE3U48KYJrLs48XC4VpVhEdeCraGMyLvcMXltinKFcvxo3XbJDtLZT_87ElWW2P0RR1bixMGsBqA70lvNgz0ZynfUddVOaGeJSuBoKI-AimgrdmlQMYDCSn" for 127.0.0.1 at 2013-03-12 10:10:06 +0530
+Creating scope :page. Overwriting existing method Authentication.page.
+Processing by AuthenticationController#create as HTML
+  Parameters: {"state"=>"7e3c1cc7e281905e8f0a071def6e689c1f99d0b7f6249c23", "code"=>"AQBNloHSCSEcA-V9LNFPfvBcqjfGYtVy_t_RuwV47nIKPWqFwr9eExO5uqqY5HVXmxLoDXNXpz030edeY9DVgc8W4buS9tvlnJE3U48KYJrLs48XC4VpVhEdeCraGMyLvcMXltinKFcvxo3XbJDtLZT_87ElWW2P0RR1bixMGsBqA70lvNgz0ZynfUddVOaGeJSuBoKI-AimgrdmlQMYDCSn", "provider"=>"facebook"}
+  [1m[36mAuthentication Load (0.5ms)[0m  [1mSELECT "authentications".* FROM "authentications" WHERE "authentications"."provider" = 'facebook' AND "authentications"."uid" = '1237754790' LIMIT 1[0m
+  [1m[35mUser Load (0.6ms)[0m  SELECT "users".* FROM "users" WHERE "users"."id" = 13 LIMIT 1
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35m (0.9ms)[0m  UPDATE "users" SET "last_sign_in_at" = '2013-03-12 04:31:33.882922', "current_sign_in_at" = '2013-03-12 04:40:10.048069', "sign_in_count" = 11, "updated_at" = '2013-03-12 04:40:10.055190' WHERE "users"."id" = 13
+  [1m[36m (181.1ms)[0m  [1mcommit transaction[0m
+Redirected to http://localhost:3000/
+Completed 302 Found in 460ms (ActiveRecord: 183.8ms)
+
+
+Started GET "/" for 127.0.0.1 at 2013-03-12 10:10:10 +0530
+  [1m[35mUser Load (0.5ms)[0m  SELECT "users".* FROM "users" WHERE "users"."id" = 13 LIMIT 1
+Processing by ScreensController#home as HTML
+Creating scope :page. Overwriting existing method Role.page.
+  [1m[36m (0.4ms)[0m  [1mSELECT COUNT(*) FROM "roles" INNER JOIN "users_roles" ON "roles"."id" = "users_roles"."role_id" WHERE "users_roles"."user_id" = 13 AND (((roles.name = 'admin') AND (roles.resource_type IS NULL) AND (roles.resource_id IS NULL)))[0m
+  Rendered screens/home.html.erb within layouts/application (264.8ms)
+  Rendered layouts/_shim.html.erb (0.1ms)
+  Rendered layouts/_footer.html.erb (1.2ms)
+Completed 200 OK in 484ms (Views: 479.7ms | ActiveRecord: 1.9ms)

@@ -8,7 +8,7 @@ class AuthenticationController < ApplicationController
 
     if authentication
       # Authentication found, sign the user in.
-      flash[:sucess] = "Welcome. #{authentication.user.name}"
+      flash[:info] = "Welcome. #{authentication.user.name}"
       sign_in_and_redirect(:user, authentication.user)
 
       #login_and_redirect_user(authentication.user)
