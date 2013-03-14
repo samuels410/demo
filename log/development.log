@@ -11177,6 +11177,7 @@ Processing by CoursesController#show as HTML
   Rendered layouts/_header.html.erb (8.2ms)
   Rendered layouts/_footer.html.erb (1.0ms)
 Completed 200 OK in 315ms (Views: 298.4ms | ActiveRecord: 3.3ms)
+<<<<<<< HEAD
 Connecting to database specified by database.yml
 Creating scope :page. Overwriting existing method Comment.page.
 Creating scope :page. Overwriting existing method AdminUser.page.
@@ -16508,3 +16509,5 @@ Processing by ScreensController#home as HTML
   Rendered layouts/_shim.html.erb (0.1ms)
   Rendered layouts/_footer.html.erb (0.9ms)
 Completed 200 OK in 196ms (Views: 135.4ms | ActiveRecord: 0.0ms)
+=======
+>>>>>>> f3a8f40864b129e3294182ebbfbb23bb392e1650
