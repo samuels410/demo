@@ -25938,3 +25938,141 @@ Completed 200 OK in 300ms (Views: 280.3ms | ActiveRecord: 5.1ms)
 =======
 Started POST "/__better_errors/41104720/variables" for 127.0.0.1 at 2013-03-15 12:20:45 +0530
 >>>>>>> 32b155b634674382bda61bd332496c894cacf8ab
+Connecting to database specified by database.yml
+Creating scope :page. Overwriting existing method Comment.page.
+Creating scope :page. Overwriting existing method AdminUser.page.
+Creating scope :page. Overwriting existing method User.page.
+
+
+Started GET "/courses" for 127.0.0.1 at 2013-03-15 20:56:53 +0530
+Creating scope :page. Overwriting existing method Course.page.
+Processing by CoursesController#index as HTML
+Creating scope :page. Overwriting existing method Topic.page.
+  [1m[36m (0.1ms)[0m  [1mSELECT COUNT(*) FROM "courses" WHERE "courses"."ispublished" = 1[0m
+  [1m[35mCACHE (0.0ms)[0m  SELECT COUNT(*) FROM "courses" WHERE "courses"."ispublished" = 1
+  [1m[36mCourse Load (0.3ms)[0m  [1mSELECT "courses".* FROM "courses" WHERE "courses"."ispublished" = 1 ORDER BY courses.created_at DESC LIMIT 5 OFFSET 0[0m
+Creating scope :page. Overwriting existing method Tag.page.
+  [1m[35mUser Load (0.2ms)[0m  SELECT "users".* FROM "users" WHERE "users"."id" = 5 LIMIT 1
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT "users".* FROM "users" WHERE "users"."id" = 5 LIMIT 1[0m
+Creating scope :page. Overwriting existing method Relationship.page.
+  [1m[35mTopic Load (0.1ms)[0m  SELECT "topics".* FROM "topics" INNER JOIN "relationships" ON "topics"."id" = "relationships"."topic_id" WHERE "relationships"."course_id" = 10
+Creating scope :page. Overwriting existing method RatingCache.page.
+  [1m[36mRatingCache Load (0.2ms)[0m  [1mSELECT "rating_caches".* FROM "rating_caches" WHERE "rating_caches"."cacheable_id" = 10 AND "rating_caches"."cacheable_type" = 'Course' AND "rating_caches"."dimension" = 'rate' LIMIT 1[0m
+  [1m[35mUser Load (0.3ms)[0m  SELECT "users".* FROM "users" WHERE "users"."id" = 13 LIMIT 1
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT "users".* FROM "users" WHERE "users"."id" = 5 LIMIT 1[0m
+  [1m[35mUser Load (0.2ms)[0m  SELECT "users".* FROM "users" WHERE "users"."id" = 3 LIMIT 1
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT "users".* FROM "users" WHERE "users"."id" = 3 LIMIT 1[0m
+  [1m[35mTopic Load (0.2ms)[0m  SELECT "topics".* FROM "topics" INNER JOIN "relationships" ON "topics"."id" = "relationships"."topic_id" WHERE "relationships"."course_id" = 9
+  [1m[36mRatingCache Load (0.1ms)[0m  [1mSELECT "rating_caches".* FROM "rating_caches" WHERE "rating_caches"."cacheable_id" = 9 AND "rating_caches"."cacheable_type" = 'Course' AND "rating_caches"."dimension" = 'rate' LIMIT 1[0m
+  [1m[35mCACHE (0.0ms)[0m  SELECT "users".* FROM "users" WHERE "users"."id" = 3 LIMIT 1
+  [1m[36mUser Load (0.2ms)[0m  [1mSELECT "users".* FROM "users" WHERE "users"."id" = 1 LIMIT 1[0m
+  [1m[35mCACHE (0.0ms)[0m  SELECT "users".* FROM "users" WHERE "users"."id" = 1 LIMIT 1
+  [1m[36mTopic Load (0.2ms)[0m  [1mSELECT "topics".* FROM "topics" INNER JOIN "relationships" ON "topics"."id" = "relationships"."topic_id" WHERE "relationships"."course_id" = 7[0m
+  [1m[35mRatingCache Load (0.1ms)[0m  SELECT "rating_caches".* FROM "rating_caches" WHERE "rating_caches"."cacheable_id" = 7 AND "rating_caches"."cacheable_type" = 'Course' AND "rating_caches"."dimension" = 'rate' LIMIT 1
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT "users".* FROM "users" WHERE "users"."id" = 1 LIMIT 1[0m
+  [1m[35mCACHE (0.0ms)[0m  SELECT "users".* FROM "users" WHERE "users"."id" = 1 LIMIT 1
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT "users".* FROM "users" WHERE "users"."id" = 1 LIMIT 1[0m
+  [1m[35mTopic Load (0.2ms)[0m  SELECT "topics".* FROM "topics" INNER JOIN "relationships" ON "topics"."id" = "relationships"."topic_id" WHERE "relationships"."course_id" = 6
+  [1m[36mRatingCache Load (0.3ms)[0m  [1mSELECT "rating_caches".* FROM "rating_caches" WHERE "rating_caches"."cacheable_id" = 6 AND "rating_caches"."cacheable_type" = 'Course' AND "rating_caches"."dimension" = 'rate' LIMIT 1[0m
+  [1m[35mCACHE (0.0ms)[0m  SELECT "users".* FROM "users" WHERE "users"."id" = 1 LIMIT 1
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT "users".* FROM "users" WHERE "users"."id" = 1 LIMIT 1[0m
+  [1m[35mCACHE (0.0ms)[0m  SELECT "users".* FROM "users" WHERE "users"."id" = 1 LIMIT 1
+  [1m[36mTopic Load (0.2ms)[0m  [1mSELECT "topics".* FROM "topics" INNER JOIN "relationships" ON "topics"."id" = "relationships"."topic_id" WHERE "relationships"."course_id" = 4[0m
+  [1m[35mRatingCache Load (0.2ms)[0m  SELECT "rating_caches".* FROM "rating_caches" WHERE "rating_caches"."cacheable_id" = 4 AND "rating_caches"."cacheable_type" = 'Course' AND "rating_caches"."dimension" = 'rate' LIMIT 1
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT "users".* FROM "users" WHERE "users"."id" = 1 LIMIT 1[0m
+  Rendered courses/_course.html.erb (416.2ms)
+  [1m[35m (0.1ms)[0m  SELECT COUNT(*) FROM "topics" 
+  [1m[36mCourse Load (0.3ms)[0m  [1mSELECT "courses".* FROM "courses" WHERE "courses"."ispublished" = 1 ORDER BY courses.created_at DESC[0m
+  [1m[35mTopic Load (0.2ms)[0m  SELECT "topics".* FROM "topics" ORDER BY name
+  [1m[36m (0.2ms)[0m  [1mSELECT COUNT(*) FROM "courses" INNER JOIN "relationships" ON "courses"."id" = "relationships"."course_id" WHERE "relationships"."topic_id" = 4 AND "courses"."ispublished" = 1[0m
+  [1m[35m (0.2ms)[0m  SELECT COUNT(*) FROM "courses" INNER JOIN "relationships" ON "courses"."id" = "relationships"."course_id" WHERE "relationships"."topic_id" = 6 AND "courses"."ispublished" = 1
+  [1m[36m (0.1ms)[0m  [1mSELECT COUNT(*) FROM "courses" INNER JOIN "relationships" ON "courses"."id" = "relationships"."course_id" WHERE "relationships"."topic_id" = 5 AND "courses"."ispublished" = 1[0m
+  [1m[35m (0.2ms)[0m  SELECT COUNT(*) FROM "courses" INNER JOIN "relationships" ON "courses"."id" = "relationships"."course_id" WHERE "relationships"."topic_id" = 3 AND "courses"."ispublished" = 1
+  [1m[36m (0.2ms)[0m  [1mSELECT COUNT(*) FROM "courses" INNER JOIN "relationships" ON "courses"."id" = "relationships"."course_id" WHERE "relationships"."topic_id" = 2 AND "courses"."ispublished" = 1[0m
+  [1m[35m (0.2ms)[0m  SELECT COUNT(*) FROM "courses" INNER JOIN "relationships" ON "courses"."id" = "relationships"."course_id" WHERE "relationships"."topic_id" = 1 AND "courses"."ispublished" = 1
+  [1m[36mCourse Load (0.2ms)[0m  [1mSELECT "courses".* FROM "courses" WHERE "courses"."ispublished" = 0 ORDER BY courses.created_at DESC[0m
+  Rendered courses/index.html.erb within layouts/application (890.0ms)
+  Rendered layouts/_shim.html.erb (0.5ms)
+Creating scope :page. Overwriting existing method Role.page.
+  [1m[35m (0.1ms)[0m  SELECT COUNT(*) FROM "roles" INNER JOIN "users_roles" ON "roles"."id" = "users_roles"."role_id" WHERE "users_roles"."user_id" = 13 AND (((roles.name = 'admin') AND (roles.resource_type IS NULL) AND (roles.resource_id IS NULL)))
+  Rendered layouts/_header.html.erb (76.8ms)
+  Rendered layouts/_footer.html.erb (1.8ms)
+Completed 200 OK in 1401ms (Views: 1312.8ms | ActiveRecord: 8.4ms)
+
+
+Started GET "/courses/10" for 127.0.0.1 at 2013-03-15 20:57:01 +0530
+Processing by CoursesController#show as HTML
+  Parameters: {"id"=>"10"}
+  [1m[36mCourse Load (0.3ms)[0m  [1mSELECT "courses".* FROM "courses" WHERE "courses"."id" = ? ORDER BY courses.created_at DESC LIMIT 1[0m  [["id", "10"]]
+  [1m[35m (0.1ms)[0m  SELECT COUNT(*) FROM "comments" WHERE "comments"."commentable_id" = 10 AND "comments"."commentable_type" = 'Course'
+  [1m[36mUser Load (0.2ms)[0m  [1mSELECT "users".* FROM "users" WHERE "users"."id" = 13 LIMIT 1[0m
+  [1m[35mRatingCache Load (0.1ms)[0m  SELECT "rating_caches".* FROM "rating_caches" WHERE "rating_caches"."cacheable_id" = 10 LIMIT 1
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT "rating_caches".* FROM "rating_caches" WHERE "rating_caches"."cacheable_id" = 10 LIMIT 1[0m
+Creating scope :page. Overwriting existing method Rate.page.
+  [1m[35mRate Load (0.2ms)[0m  SELECT "rates".* FROM "rates" WHERE "rates"."rater_id" = 13 LIMIT 1
+  [1m[36mUser Load (0.3ms)[0m  [1mSELECT "users".* FROM "users" WHERE "users"."id" = 5 LIMIT 1[0m
+  [1m[35mCACHE (0.0ms)[0m  SELECT "users".* FROM "users" WHERE "users"."id" = 5 LIMIT 1
+  [1m[36mTopic Load (0.2ms)[0m  [1mSELECT "topics".* FROM "topics" INNER JOIN "relationships" ON "topics"."id" = "relationships"."topic_id" WHERE "relationships"."course_id" = 10[0m
+  [1m[35mRatingCache Load (0.2ms)[0m  SELECT "rating_caches".* FROM "rating_caches" WHERE "rating_caches"."cacheable_id" = 10 AND "rating_caches"."cacheable_type" = 'Course' AND "rating_caches"."dimension" = 'rate' LIMIT 1
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT "users".* FROM "users" WHERE "users"."id" = 5 LIMIT 1[0m
+  Rendered courses/_course.html.erb (13.3ms)
+  Rendered comments/_form.html.erb (3.4ms)
+  [1m[35mComment Load (0.3ms)[0m  SELECT "comments".* FROM "comments" WHERE "comments"."commentable_id" = 10 AND "comments"."commentable_type" = 'Course' ORDER BY created_at DESC LIMIT 5 OFFSET 0
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT "users".* FROM "users" WHERE "users"."id" = 13 LIMIT 1[0m
+  Rendered comments/_review.html.erb (20.0ms)
+  Rendered courses/show.html.erb within layouts/application (40.8ms)
+  Rendered layouts/_shim.html.erb (0.1ms)
+  [1m[35m (0.2ms)[0m  SELECT COUNT(*) FROM "roles" INNER JOIN "users_roles" ON "roles"."id" = "users_roles"."role_id" WHERE "users_roles"."user_id" = 13 AND (((roles.name = 'admin') AND (roles.resource_type IS NULL) AND (roles.resource_id IS NULL)))
+  Rendered layouts/_header.html.erb (6.0ms)
+  Rendered layouts/_footer.html.erb (0.8ms)
+Completed 200 OK in 272ms (Views: 221.3ms | ActiveRecord: 2.8ms)
+
+
+Started GET "/courses" for 127.0.0.1 at 2013-03-15 20:57:09 +0530
+Processing by CoursesController#index as HTML
+  [1m[36m (0.2ms)[0m  [1mSELECT COUNT(*) FROM "courses" WHERE "courses"."ispublished" = 1[0m
+  [1m[35mCACHE (0.0ms)[0m  SELECT COUNT(*) FROM "courses" WHERE "courses"."ispublished" = 1
+  [1m[36mCourse Load (0.3ms)[0m  [1mSELECT "courses".* FROM "courses" WHERE "courses"."ispublished" = 1 ORDER BY courses.created_at DESC LIMIT 5 OFFSET 0[0m
+  [1m[35mUser Load (0.2ms)[0m  SELECT "users".* FROM "users" WHERE "users"."id" = 5 LIMIT 1
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT "users".* FROM "users" WHERE "users"."id" = 5 LIMIT 1[0m
+  [1m[35mTopic Load (0.2ms)[0m  SELECT "topics".* FROM "topics" INNER JOIN "relationships" ON "topics"."id" = "relationships"."topic_id" WHERE "relationships"."course_id" = 10
+  [1m[36mRatingCache Load (0.2ms)[0m  [1mSELECT "rating_caches".* FROM "rating_caches" WHERE "rating_caches"."cacheable_id" = 10 AND "rating_caches"."cacheable_type" = 'Course' AND "rating_caches"."dimension" = 'rate' LIMIT 1[0m
+  [1m[35mUser Load (0.2ms)[0m  SELECT "users".* FROM "users" WHERE "users"."id" = 13 LIMIT 1
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT "users".* FROM "users" WHERE "users"."id" = 5 LIMIT 1[0m
+  [1m[35mUser Load (0.2ms)[0m  SELECT "users".* FROM "users" WHERE "users"."id" = 3 LIMIT 1
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT "users".* FROM "users" WHERE "users"."id" = 3 LIMIT 1[0m
+  [1m[35mTopic Load (0.2ms)[0m  SELECT "topics".* FROM "topics" INNER JOIN "relationships" ON "topics"."id" = "relationships"."topic_id" WHERE "relationships"."course_id" = 9
+  [1m[36mRatingCache Load (0.1ms)[0m  [1mSELECT "rating_caches".* FROM "rating_caches" WHERE "rating_caches"."cacheable_id" = 9 AND "rating_caches"."cacheable_type" = 'Course' AND "rating_caches"."dimension" = 'rate' LIMIT 1[0m
+  [1m[35mCACHE (0.0ms)[0m  SELECT "users".* FROM "users" WHERE "users"."id" = 3 LIMIT 1
+  [1m[36mUser Load (0.2ms)[0m  [1mSELECT "users".* FROM "users" WHERE "users"."id" = 1 LIMIT 1[0m
+  [1m[35mCACHE (0.0ms)[0m  SELECT "users".* FROM "users" WHERE "users"."id" = 1 LIMIT 1
+  [1m[36mTopic Load (0.2ms)[0m  [1mSELECT "topics".* FROM "topics" INNER JOIN "relationships" ON "topics"."id" = "relationships"."topic_id" WHERE "relationships"."course_id" = 7[0m
+  [1m[35mRatingCache Load (0.2ms)[0m  SELECT "rating_caches".* FROM "rating_caches" WHERE "rating_caches"."cacheable_id" = 7 AND "rating_caches"."cacheable_type" = 'Course' AND "rating_caches"."dimension" = 'rate' LIMIT 1
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT "users".* FROM "users" WHERE "users"."id" = 1 LIMIT 1[0m
+  [1m[35mCACHE (0.0ms)[0m  SELECT "users".* FROM "users" WHERE "users"."id" = 1 LIMIT 1
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT "users".* FROM "users" WHERE "users"."id" = 1 LIMIT 1[0m
+  [1m[35mTopic Load (0.2ms)[0m  SELECT "topics".* FROM "topics" INNER JOIN "relationships" ON "topics"."id" = "relationships"."topic_id" WHERE "relationships"."course_id" = 6
+  [1m[36mRatingCache Load (0.2ms)[0m  [1mSELECT "rating_caches".* FROM "rating_caches" WHERE "rating_caches"."cacheable_id" = 6 AND "rating_caches"."cacheable_type" = 'Course' AND "rating_caches"."dimension" = 'rate' LIMIT 1[0m
+  [1m[35mCACHE (0.0ms)[0m  SELECT "users".* FROM "users" WHERE "users"."id" = 1 LIMIT 1
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT "users".* FROM "users" WHERE "users"."id" = 1 LIMIT 1[0m
+  [1m[35mCACHE (0.0ms)[0m  SELECT "users".* FROM "users" WHERE "users"."id" = 1 LIMIT 1
+  [1m[36mTopic Load (0.2ms)[0m  [1mSELECT "topics".* FROM "topics" INNER JOIN "relationships" ON "topics"."id" = "relationships"."topic_id" WHERE "relationships"."course_id" = 4[0m
+  [1m[35mRatingCache Load (0.2ms)[0m  SELECT "rating_caches".* FROM "rating_caches" WHERE "rating_caches"."cacheable_id" = 4 AND "rating_caches"."cacheable_type" = 'Course' AND "rating_caches"."dimension" = 'rate' LIMIT 1
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT "users".* FROM "users" WHERE "users"."id" = 1 LIMIT 1[0m
+  Rendered courses/_course.html.erb (48.8ms)
+  [1m[35m (0.1ms)[0m  SELECT COUNT(*) FROM "topics" 
+  [1m[36mCourse Load (0.3ms)[0m  [1mSELECT "courses".* FROM "courses" WHERE "courses"."ispublished" = 1 ORDER BY courses.created_at DESC[0m
+  [1m[35mTopic Load (0.2ms)[0m  SELECT "topics".* FROM "topics" ORDER BY name
+  [1m[36m (0.2ms)[0m  [1mSELECT COUNT(*) FROM "courses" INNER JOIN "relationships" ON "courses"."id" = "relationships"."course_id" WHERE "relationships"."topic_id" = 4 AND "courses"."ispublished" = 1[0m
+  [1m[35m (0.2ms)[0m  SELECT COUNT(*) FROM "courses" INNER JOIN "relationships" ON "courses"."id" = "relationships"."course_id" WHERE "relationships"."topic_id" = 6 AND "courses"."ispublished" = 1
+  [1m[36m (0.2ms)[0m  [1mSELECT COUNT(*) FROM "courses" INNER JOIN "relationships" ON "courses"."id" = "relationships"."course_id" WHERE "relationships"."topic_id" = 5 AND "courses"."ispublished" = 1[0m
+  [1m[35m (0.2ms)[0m  SELECT COUNT(*) FROM "courses" INNER JOIN "relationships" ON "courses"."id" = "relationships"."course_id" WHERE "relationships"."topic_id" = 3 AND "courses"."ispublished" = 1
+  [1m[36m (0.2ms)[0m  [1mSELECT COUNT(*) FROM "courses" INNER JOIN "relationships" ON "courses"."id" = "relationships"."course_id" WHERE "relationships"."topic_id" = 2 AND "courses"."ispublished" = 1[0m
+  [1m[35m (0.2ms)[0m  SELECT COUNT(*) FROM "courses" INNER JOIN "relationships" ON "courses"."id" = "relationships"."course_id" WHERE "relationships"."topic_id" = 1 AND "courses"."ispublished" = 1
+  [1m[36mCourse Load (0.2ms)[0m  [1mSELECT "courses".* FROM "courses" WHERE "courses"."ispublished" = 0 ORDER BY courses.created_at DESC[0m
+  Rendered courses/index.html.erb within layouts/application (84.7ms)
+  Rendered layouts/_shim.html.erb (0.1ms)
+  [1m[35m (0.2ms)[0m  SELECT COUNT(*) FROM "roles" INNER JOIN "users_roles" ON "roles"."id" = "users_roles"."role_id" WHERE "users_roles"."user_id" = 13 AND (((roles.name = 'admin') AND (roles.resource_type IS NULL) AND (roles.resource_id IS NULL)))
+  Rendered layouts/_header.html.erb (6.2ms)
+  Rendered layouts/_footer.html.erb (0.8ms)
+Completed 200 OK in 232ms (Views: 213.6ms | ActiveRecord: 5.1ms)
