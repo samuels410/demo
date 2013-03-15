@@ -7,67 +7,66 @@
     <!-- <a class="brand" href=""><strong class="curr">SmartCoach</strong></a> -->
     <%= link_to "SmartCoach", root_path, class: "curr brand" %>
     <div class="navbar-content-1">
-
-
       <ul class="nav pull-right">
-        <a href="#myModal" role="button" class="btn" data-toggle="modal">Launch demo modal</a>
- 
-<!-- Modal -->
-<div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-<div class="modal-header">
-<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-<h3 id="myModalLabel">Modal header</h3>
-</div>
-<div class="modal-body">
-<p>One fine body…</p>
-</div>
-<div class="modal-footer">
-<button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
-<button class="btn btn-primary">Save changes</button>
-</div>
-</div>
-        <!-- <li class="active"> -->
-        <li class="active">
-          <%= link_to "Home", root_path %>
-        </li>
-        <li>
-          <%= link_to "About", about_path %>
-        </li>
-        <li> <%= link_to "Courses", courses_path %></li>
+       
+        <!-- Modal -->
+        <div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><%=image_tag("close.png", alt: "")%></a></button>
+          <div class="modal-body">
+                <%= simple_form_for(User.new, :as => :user, :url => session_path(:user), :html => {:class => 'form-vertical' }) do |f| %>
+                <%= f.input :email, :autofocus => true %>
+                <%= f.input :password %>
+                <p> <%= f.button :submit, "Sign in", :class => 'btn-primary' %></p>
+                <% end %>
+                <br>
+                &nbsp;<%= link_to image_tag("loginfacebook.png", alt: ""), '/auth/facebook/' %> 
+                &nbsp;  &nbsp; &nbsp;&nbsp;&nbsp; <%= link_to image_tag("login-linkedin.png", alt: ""), '/auth/linkedin/' %>
+                &nbsp;  &nbsp;&nbsp;&nbsp; &nbsp;<%= link_to image_tag("Google_Logo.jpg", alt: ""), '/auth/google_oauth2/' %> <br>
+                Facebook  &nbsp; Linkedin&nbsp;&nbsp; &nbsp;Google     
+            </div>
+      </div>
+      <!-- <li class="active"> -->
+      <li class="active">
+        <%= link_to "Home", root_path %>
+      </li>
+      <li>
+        <%= link_to "About", about_path %>
+      </li>
+      <li> <%= link_to "Courses", courses_path %></li>
 
-        <% if user_signed_in?%>
+      <% if user_signed_in?%>
 
-        <li id="fat-menu" class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-            <% if current_user.image == nil %>
-            <%= gravatar_for_with_size current_user, "15x15" %>
-            <% else  %>
-           <%= image_tag(current_user.image,size: "23x26", alt: "")%> 
-            <% end  %>
-           <%= current_user.name %>  <b class="caret"></b>
-          </a>
-          <ul class="dropdown-menu" id="droplinks">
-            <% if current_user.has_role? :admin %>
-            <li>
-              <%= link_to 'Admin', users_path %>
-            </li>
-            <% end %>
-            <li><%= link_to "Profile", edit_user_registration_path %></li>
-            <li class="divider"></li>
-            <li>
-              <%= link_to "Sign out", destroy_user_session_path, method: "delete" %>
-            </li>
-          </ul>
-        </li>
-        <% else %>
-        <li><%= link_to "Sign in", new_user_session_path %></li>
-        <li>
-          <%= link_to "Sign up", new_user_registration_path %>
-        </li>
-        <% end %>
-      </ul>
-    </div>
+      <li id="fat-menu" class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+          <% if current_user.image == nil %>
+          <%= gravatar_for_with_size current_user, "15x15" %>
+          <% else  %>
+          <%= image_tag(current_user.image,size: "23x26", alt: "")%> 
+          <% end  %>
+          <%= current_user.name %>  <b class="caret"></b>
+        </a>
+        <ul class="dropdown-menu" id="droplinks">
+          <% if current_user.has_role? :admin %>
+          <li>
+            <%= link_to 'Admin', users_path %>
+          </li>
+          <% end %>
+          <li><%= link_to "Profile", edit_user_registration_path %></li>
+          <li class="divider"></li>
+          <li>
+            <%= link_to "Sign out", destroy_user_session_path, method: "delete" %>
+          </li>
+        </ul>
+      </li>
+      <% else %>
+      <li> <a href="#myModal" role="button" class="link" data-toggle="modal">Sign in</a></li>
+      <li>
+        <%= link_to "Sign up", new_user_registration_path %>
+      </li>
+      <% end %>
+    </ul>
   </div>
+</div>
 </div>
 </div>
 <div class="container">
