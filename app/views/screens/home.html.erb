@@ -26,15 +26,9 @@
             <% if current_user.image == nil %>
             <%= gravatar_for_with_size current_user, "15x15" %>
             <% else  %>
-<<<<<<< HEAD
-            <%= image_tag(current_user.image,size: "23x26", alt: "")%> 
-            <% end  %>
-            <%= current_user.name %>  <b class="caret"></b>
-=======
            <%= image_tag(current_user.image,size: "23x26", alt: "")%> 
             <% end  %>
            <%= current_user.name %>  <b class="caret"></b>
->>>>>>> f3a8f40864b129e3294182ebbfbb23bb392e1650
           </a>
           <ul class="dropdown-menu" id="droplinks">
             <% if current_user.has_role? :admin %>
@@ -60,12 +54,7 @@
   </div>
 </div>
 </div>
-<<<<<<< HEAD
-</div>
-
-=======
 <div class="container">
->>>>>>> f3a8f40864b129e3294182ebbfbb23bb392e1650
       <!-- <div class="page-header">
         <h1>The Divshot Quickstart Guide</h1>
       </div> -->
@@ -94,16 +83,16 @@
           <p>Our mission at SmartCoach is to empower and enable people everywhere to enhance their skills.
            Because we believe education should be accessible to everyone so we have founded SmartCoach to help you learn the skills you need to create wonderful things. And we believe you can do it.
 
-      			<!-- <div class="btn-group">
-      		<a class="btn btn-success .btn-large dropdown-toggle" data-toggle="dropdown" href="#">
-			    Browse
-			    <span class="caret"></span>
-			 </a>
-			  <ul class="dropdown-menu">
-			    <li><a tabindex="-1" href="#">Categories</a></li>
-			    <li><a tabindex="-1" href="#">Tutorials</a></li>
-			  </ul>
-			</div> -->
+            <!-- <div class="btn-group">
+          <a class="btn btn-success .btn-large dropdown-toggle" data-toggle="dropdown" href="#">
+          Browse
+          <span class="caret"></span>
+       </a>
+        <ul class="dropdown-menu">
+          <li><a tabindex="-1" href="#">Categories</a></li>
+          <li><a tabindex="-1" href="#">Tutorials</a></li>
+        </ul>
+      </div> -->
 
 
     </p>
