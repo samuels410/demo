@@ -26,9 +26,15 @@
             <% if current_user.image == nil %>
             <%= gravatar_for_with_size current_user, "15x15" %>
             <% else  %>
+<<<<<<< HEAD
+            <%= image_tag(current_user.image,size: "23x26", alt: "")%> 
+            <% end  %>
+            <%= current_user.name %>  <b class="caret"></b>
+=======
            <%= image_tag(current_user.image,size: "23x26", alt: "")%> 
             <% end  %>
            <%= current_user.name %>  <b class="caret"></b>
+>>>>>>> f3a8f40864b129e3294182ebbfbb23bb392e1650
           </a>
           <ul class="dropdown-menu" id="droplinks">
             <% if current_user.has_role? :admin %>
@@ -54,7 +60,12 @@
   </div>
 </div>
 </div>
+<<<<<<< HEAD
+</div>
+
+=======
 <div class="container">
+>>>>>>> f3a8f40864b129e3294182ebbfbb23bb392e1650
       <!-- <div class="page-header">
         <h1>The Divshot Quickstart Guide</h1>
       </div> -->
